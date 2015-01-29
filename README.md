@@ -29,27 +29,31 @@ Installation
 
 3.  Add module to `config/main.php`
 	
-	```
-	'attachments' => [
-	            'class' => nemmo\attachments\Module::className(),
-	            'tempPath' => '@statics/temp',
-	            'storePath' => '@statics/store'
-	        ]
+	```php
+	'modules' => [
+		...
+		'attachments' => [
+			'class' => nemmo\attachments\Module::className(),
+			'tempPath' => '@app/uploads/temp',
+			'storePath' => '@app/uploads/store'
+		]
+		...
+	]
 	```
 
 4. Attach behavior to your model (be sure that your model has "id" property)
 	
-	```
+	```php
 	public function behaviors()
-	    {
-	        return [
-		        ...
-	            'fileBehavior' => [
-				'class' => \nemmo\attachments\behaviors\FileBehavior::className()
-	            ]
-	            ...
-	        ];
-	    }
+	{
+		return [
+			...
+			'fileBehavior' => [
+			'class' => \nemmo\attachments\behaviors\FileBehavior::className()
+			]
+			...
+		];
+	}
 	```
 
 Usage
@@ -57,41 +61,32 @@ Usage
 
 1. In the `form.php` of your model add file input
 	
-	```
-	<?= BootstrapFileInput::widget([
-	        'name' => 'file',
-	        'id' => 'file-input',
-	        'options' => [
-	            'multiple' => true,
-	        ],
-	        'clientOptions' => [
-	            'uploadUrl' => Url::to('/attachments/file/upload'),
-	            'maxFileCount' => 10,
-	            'previewFileType' => 'file',
-	            'browseClass' => 'btn btn-success',
-	            'browseLabel' => 'Обзор',
-	            'uploadClass' => 'btn btn-info',
-	            'uploadLabel' => 'Загрузить',
-	            'removeClass' => 'btn btn-danger',
-	            'removeLabel' => 'Удалить',
-	            'overwriteInitial' => false
-	        ]
-	    ]); ?>
+	```php
+	<?= \dosamigos\fileinput\BootstrapFileInput::widget([
+		'name' => 'file',
+		'id' => 'file-input',
+		'options' => [
+			'multiple' => true, // false if you want to allow upload a single file
+		],
+		'clientOptions' => [
+			'uploadUrl' => Url::toRoute('/attachments/file/upload'),
+			'previewFileType' => 'file'
+			// other options
+		]
+	]); ?>
 	```
 
 2. Use widget to show all attachments of the model in the `view.php`
 	
-	```
+	```php
 	<?= \nemmo\attachments\components\AttachmentsTable::widget(['model' => $model]) ?>
 	```
 
 3. (Optional) Add onclick action to your submit button that uploads all files before submitting form
 	
-	```
-	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', [
-	            'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-	            'onclick' => "$('#file-input').fileinput('upload');"
-	        ]) ?>
-	    </div>
+	```php
+	<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', [
+		'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+		'onclick' => "$('#file-input').fileinput('upload');"
+	]) ?>
 	```
