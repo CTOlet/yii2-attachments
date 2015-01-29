@@ -2,7 +2,7 @@
 
 namespace nemmo\attachments\models;
 
-use common\modules\attachments\ModuleTrait;
+use nemmo\attachments\ModuleTrait;
 use Yii;
 use yii\helpers\Url;
 

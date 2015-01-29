@@ -2,7 +2,7 @@
 
 namespace nemmo\attachments\components;
 
-use common\modules\attachments\behaviors\FileBehavior;
+use nemmo\attachments\behaviors\FileBehavior;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\db\ActiveRecord;

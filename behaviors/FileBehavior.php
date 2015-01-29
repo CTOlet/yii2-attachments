@@ -8,8 +8,8 @@
 
 namespace nemmo\attachments\behaviors;
 
-use common\modules\attachments\models\File;
-use common\modules\attachments\ModuleTrait;
+use nemmo\attachments\models\File;
+use nemmo\attachments\ModuleTrait;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 

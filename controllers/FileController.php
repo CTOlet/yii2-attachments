@@ -2,8 +2,8 @@
 
 namespace nemmo\attachments\controllers;
 
-use common\modules\attachments\models\File;
-use common\modules\attachments\ModuleTrait;
+use nemmo\attachments\models\File;
+use nemmo\attachments\ModuleTrait;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\UploadedFile;
