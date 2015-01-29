@@ -1,6 +1,6 @@
 <?php
 
-namespace common\modules\attachments;
+namespace nemmo\attachments;
 
 use yii\helpers\FileHelper;
 

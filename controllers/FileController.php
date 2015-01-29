@@ -1,6 +1,6 @@
 <?php
 
-namespace common\modules\attachments\controllers;
+namespace nemmo\attachments\controllers;
 
 use common\modules\attachments\models\File;
 use common\modules\attachments\ModuleTrait;

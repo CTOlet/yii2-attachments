@@ -1,6 +1,6 @@
 <?php
 
-namespace common\modules\attachments\models;
+namespace nemmo\attachments\models;
 
 use common\modules\attachments\ModuleTrait;
 use Yii;

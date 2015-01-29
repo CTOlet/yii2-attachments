@@ -1,6 +1,6 @@
 <?php
 
-namespace common\modules\attachments\components;
+namespace nemmo\attachments\components;
 
 use common\modules\attachments\behaviors\FileBehavior;
 use Yii;

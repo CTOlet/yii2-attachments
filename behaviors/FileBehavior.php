@@ -6,7 +6,7 @@
  * Time: 12:24
  */
 
-namespace common\modules\attachments\behaviors;
+namespace nemmo\attachments\behaviors;
 
 use common\modules\attachments\models\File;
 use common\modules\attachments\ModuleTrait;
