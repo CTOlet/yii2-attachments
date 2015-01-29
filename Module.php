@@ -6,7 +6,7 @@ use yii\helpers\FileHelper;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'common\modules\attachments\controllers';
+    public $controllerNamespace = 'nemmo\attachments\controllers';
 
     public $storePath = '@app/uploads/store';
 
