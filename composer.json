@@ -1,0 +1,21 @@
+{
+    "name": "nemmo/yii2-attachments",
+    "description": "Extension for file uploading and attaching to the models",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","attachment","file","upload"],
+    "license": "BSD-4-Clause",
+    "authors": [
+        {
+            "name": "Alimzhan Abuov aka Nemmo",
+            "email": "abuov@alimzhan.kz"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "nemmo\\attachments\\": ""
+        }
+    }
+}
