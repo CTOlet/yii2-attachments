@@ -39,6 +39,10 @@ class FileController extends Controller
         unlink($filePath);
         $file->delete();
 
-        return $this->redirect(Url::previous());
+        if (\Yii::$app->request->isAjax) {
+            return json_encode([]);
+        } else {
+            return $this->redirect(Url::previous());
+        }
     }
 }

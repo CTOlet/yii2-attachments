@@ -12,6 +12,7 @@ use nemmo\attachments\models\File;
 use nemmo\attachments\ModuleTrait;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
+use yii\helpers\Url;
 
 class FileBehavior extends \yii\base\Behavior
 {
@@ -98,5 +99,34 @@ class FileBehavior extends \yii\base\Behavior
         $fileQuery->orderBy(['id' => SORT_ASC]);
 
         return $fileQuery->all();
+    }
+
+    public function getInitialPreview()
+    {
+        $initialPreview = [];
+
+        foreach ($this->getFiles() as $file) {
+            $initialPreview[] = "<div class='file-preview-other' style='padding-top: 0px'>" .
+                "<h2><i class='glyphicon glyphicon-file'></i></h2>"
+                . "</div>";
+        }
+
+        return $initialPreview;
+    }
+
+    public function getInitialPreviewConfig()
+    {
+        $initialPreviewConfig = [];
+
+        foreach ($this->getFiles() as $index => $file) {
+            $initialPreviewConfig[] = [
+                'caption' => "$file->name.$file->type",
+                'url' => Url::toRoute(['/attachments/file/delete',
+                    'id' => $file->id
+                ])
+            ];
+        }
+
+        return $initialPreviewConfig;
     }
 }

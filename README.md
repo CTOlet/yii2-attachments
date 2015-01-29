@@ -70,7 +70,8 @@ Usage
 		],
 		'clientOptions' => [
 			'uploadUrl' => Url::toRoute('/attachments/file/upload'),
-			'previewFileType' => 'file'
+			'initialPreview' => $model->isNewRecord ? [] : $model->getInitialPreview(),
+			'initialPreviewConfig' => $model->isNewRecord ? [] : $model->getInitialPreviewConfig(),
 			// other options
 		]
 	]); ?>
