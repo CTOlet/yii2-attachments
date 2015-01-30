@@ -13,8 +13,7 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
-        "yiisoft/yii2-bootstrap": "*",
-        "2amigos/yii2-file-input-widget": "*"
+        "kartik-v/yii2-widget-fileinput": "*"
     },
     "autoload": {
         "psr-4": {

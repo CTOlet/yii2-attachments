@@ -12,6 +12,7 @@ use nemmo\attachments\models\File;
 use nemmo\attachments\ModuleTrait;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 class FileBehavior extends \yii\base\Behavior
@@ -62,6 +63,7 @@ class FileBehavior extends \yii\base\Behavior
         $file->hash = $fileHash;
         $file->size = filesize($filePath);
         $file->type = $fileType;
+        $file->mime = FileHelper::getMimeType($filePath);
 
         if ($file->save()) {
             unlink($filePath);
@@ -89,6 +91,10 @@ class FileBehavior extends \yii\base\Behavior
         rmdir($userTempDir);
     }
 
+    /**
+     * @return File[]
+     * @throws \Exception
+     */
     public function getFiles()
     {
         $fileQuery = File::find()
@@ -106,9 +112,15 @@ class FileBehavior extends \yii\base\Behavior
         $initialPreview = [];
 
         foreach ($this->getFiles() as $file) {
-            $initialPreview[] = "<div class='file-preview-other' style='padding-top: 0px'>" .
-                "<h2><i class='glyphicon glyphicon-file'></i></h2>"
-                . "</div>";
+            if (substr($file->mime, 0, 5) === 'image') {
+                $initialPreview[] = Html::img($file->getUrl(), ['class' => 'file-preview-image']);
+            } else {
+                $initialPreview[] = Html::beginTag('div', ['class' => 'file-preview-other']) .
+                    Html::beginTag('h2') .
+                    Html::tag('i', '', ['class' => 'glyphicon glyphicon-file']) .
+                    Html::endTag('h2') .
+                    Html::endTag('div');
+            }
         }
 
         return $initialPreview;
@@ -123,7 +135,7 @@ class FileBehavior extends \yii\base\Behavior
                 'caption' => "$file->name.$file->type",
                 'url' => Url::toRoute(['/attachments/file/delete',
                     'id' => $file->id
-                ])
+                ]),
             ];
         }
 

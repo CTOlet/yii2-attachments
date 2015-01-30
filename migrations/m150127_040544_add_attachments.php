@@ -14,7 +14,8 @@ class m150127_040544_add_attachments extends Migration
             'itemId' => Schema::TYPE_INTEGER . ' not null',
             'hash' => Schema::TYPE_STRING . ' not null',
             'size' => Schema::TYPE_INTEGER . ' not null',
-            'type' => Schema::TYPE_STRING . ' not null'
+            'type' => Schema::TYPE_STRING . ' not null',
+            'mime' => Schema::TYPE_STRING . ' not null'
         ]);
 
         $this->createIndex('file_model', 'attach_file', 'model');

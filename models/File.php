@@ -16,6 +16,7 @@ use yii\helpers\Url;
  * @property string $hash
  * @property integer $size
  * @property string $type
+ * @property string $mime
  */
 class File extends \yii\db\ActiveRecord
 {
@@ -35,9 +36,9 @@ class File extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'model', 'itemId', 'hash', 'size', 'type'], 'required'],
+            [['name', 'model', 'itemId', 'hash', 'size', 'type', 'mime'], 'required'],
             [['itemId', 'size'], 'integer'],
-            [['name', 'model', 'hash', 'type'], 'string', 'max' => 255]
+            [['name', 'model', 'hash', 'type', 'mime'], 'string', 'max' => 255]
         ];
     }
 
@@ -54,6 +55,7 @@ class File extends \yii\db\ActiveRecord
             'hash' => 'Hash',
             'size' => 'Size',
             'type' => 'Type',
+            'mime' => 'Mime'
         ];
     }
 
