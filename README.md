@@ -62,13 +62,13 @@ Usage
 1. In the `form.php` of your model add file input
 	
 	```php
-	<?= \dosamigos\fileinput\BootstrapFileInput::widget([
+	<?= \kartik\file\FileInput::widget([
 		'name' => 'file',
 		'id' => 'file-input',
 		'options' => [
 			'multiple' => true, // false if you want to allow upload a single file
 		],
-		'clientOptions' => [
+		'pluginOptions' => [
 			'uploadUrl' => Url::toRoute('/attachments/file/upload'),
 			'initialPreview' => $model->isNewRecord ? [] : $model->getInitialPreview(),
 			'initialPreviewConfig' => $model->isNewRecord ? [] : $model->getInitialPreviewConfig(),
