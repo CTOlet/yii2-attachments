@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 class FileBehavior extends \yii\base\Behavior
 {
@@ -82,6 +83,16 @@ class FileBehavior extends \yii\base\Behavior
 
     public function saveUploads($event)
     {
+        $files = UploadedFile::getInstancesByName('file');
+
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                if (!$file->saveAs($this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name)) {
+                    throw new \Exception('Cannot attach file');
+                }
+            }
+        }
+
         $userTempDir = $this->getModule()->getUserDirPath();
         foreach (FileHelper::findFiles($userTempDir) as $file) {
             if (!$this->attachFile($file)) {

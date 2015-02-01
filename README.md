@@ -55,6 +55,8 @@ Installation
 		];
 	}
 	```
+	
+5. Make sure that you have added ```'enctype' => 'multipart/form-data'``` to the ActiveForm options	
 
 Usage
 -----
@@ -63,13 +65,13 @@ Usage
 	
 	```php
 	<?= \kartik\file\FileInput::widget([
-		'name' => 'file',
+		'name' => 'file[]',
 		'id' => 'file-input',
 		'options' => [
 			'multiple' => true, // false if you want to allow upload a single file
 		],
 		'pluginOptions' => [
-			'uploadUrl' => Url::toRoute('/attachments/file/upload'),
+			'uploadUrl' => Url::toRoute('/attachments/file/upload'), // remove this if you don't want to use AJAX uploading 
 			'initialPreview' => $model->isNewRecord ? [] : $model->getInitialPreview(),
 			'initialPreviewConfig' => $model->isNewRecord ? [] : $model->getInitialPreviewConfig(),
 			// other options
@@ -91,3 +93,10 @@ Usage
 		'onclick' => "$('#file-input').fileinput('upload');"
 	]) ?>
 	```
+	
+Change log
+----------
+
+- **Feb 1, 2015** -		AJAX or basic upload.
+- **Jan 30, 2015** -	Several previews of images and other files, fix of required packages. 
+- **Jan 29, 2015** -	First version with basic uploading and previews.

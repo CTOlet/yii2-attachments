@@ -14,7 +14,7 @@ class FileController extends Controller
 
     public function actionUpload()
     {
-        $file = UploadedFile::getInstanceByName('file');
+        $file = UploadedFile::getInstancesByName('file')[0];
 
         if ($file->saveAs($this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name)) {
             return json_encode(['uploadedFile' => $file->name]);

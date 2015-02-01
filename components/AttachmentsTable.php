@@ -71,7 +71,6 @@ class AttachmentsTable extends \yii\bootstrap\Widget
                                     'title' => Yii::t('yii', 'Удалить'),
                                     'data-confirm' => Yii::t('yii', 'Вы уверены, что хотите удалить сотрудника?'),
                                     'data-method' => 'post',
-                                    'data-pjax' => '0',
                                 ]
                             );
                         }
