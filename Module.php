@@ -2,7 +2,9 @@
 
 namespace nemmo\attachments;
 
+use nemmo\attachments\models\File;
 use yii\helpers\FileHelper;
+use yii\i18n\PhpMessageSource;
 
 class Module extends \yii\base\Module
 {
@@ -22,6 +24,24 @@ class Module extends \yii\base\Module
         }
 
         $this->defaultRoute = 'file';
+        $this->registerTranslations();
+    }
+
+    public function registerTranslations()
+    {
+        \Yii::$app->i18n->translations['nemmo/*'] = [
+            'class' => PhpMessageSource::className(),
+            'sourceLanguage' => 'en-US',
+            'basePath' => '@vendor/nemmo/yii2-attachments/messages',
+            'fileMap' => [
+                'nemmo/attachments' => 'attachments.php'
+            ],
+        ];
+    }
+
+    public static function t($category, $message, $params = [], $language = null)
+    {
+        return \Yii::t('nemmo/' . $category, $message, $params, $language);
     }
 
     public function getStorePath()
@@ -80,5 +100,69 @@ class Module extends \yii\base\Module
             $className = $matches[1];
         }
         return $className;
+    }
+
+    /**
+     * @param $filePath string
+     * @param $owner
+     * @return bool|File
+     * @throws \Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function attachFile($filePath, $owner)
+    {
+        if (!$owner->id) {
+            throw new \Exception('Owner must have id when you attach file');
+        }
+
+        if (!file_exists($filePath)) {
+            throw new \Exception('File not exist :' . $filePath);
+        }
+
+        $fileHash = md5(microtime(true) . $filePath);
+        $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
+        $newFileName = $fileHash . '.' . $fileType;
+        $fileDirPath = $this->getFilesDirPath($fileHash);
+
+        $newFilePath = $fileDirPath . DIRECTORY_SEPARATOR . $newFileName;
+
+        copy($filePath, $newFilePath);
+
+        if (!file_exists($filePath)) {
+            throw new \Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
+        }
+
+        $file = new File();
+
+        $file->name = pathinfo($filePath, PATHINFO_FILENAME);
+        $file->model = $this->getShortClass($owner);
+        $file->itemId = $owner->id;
+        $file->hash = $fileHash;
+        $file->size = filesize($filePath);
+        $file->type = $fileType;
+        $file->mime = FileHelper::getMimeType($filePath);
+
+        if ($file->save()) {
+            unlink($filePath);
+            return $file;
+        } else {
+            if (count($file->getErrors()) > 0) {
+
+                $ar = array_shift($file->getErrors());
+
+                unlink($newFilePath);
+                throw new \Exception(array_shift($ar));
+            }
+            return false;
+        }
+    }
+
+    public function detachFile($id)
+    {
+        $file = File::findOne(['id' => $id]);
+        $filePath = $this->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
+        unlink($filePath);
+
+        $file->delete();
     }
 }

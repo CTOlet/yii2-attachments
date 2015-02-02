@@ -3,7 +3,9 @@
 namespace nemmo\attachments\components;
 
 use nemmo\attachments\behaviors\FileBehavior;
+use nemmo\attachments\ModuleTrait;
 use Yii;
+use yii\bootstrap\Widget;
 use yii\data\ArrayDataProvider;
 use yii\db\ActiveRecord;
 use yii\grid\GridView;
@@ -16,9 +18,11 @@ use yii\helpers\Url;
  * Date: 28.01.2015
  * Time: 19:10
  */
-class AttachmentsTable extends \yii\bootstrap\Widget
+class AttachmentsTable extends Widget
 {
-    /** @var  ActiveRecord */
+    use ModuleTrait;
+
+    /** @var ActiveRecord */
     public $model;
 
     public function init()
@@ -29,7 +33,14 @@ class AttachmentsTable extends \yii\bootstrap\Widget
     public function run()
     {
         if (!$this->model) {
-            return '<div class="alert alert-danger"><b>Error</b>: The model is empty</div>';
+            return Html::tag('div',
+                Html::tag('b',
+                    Yii::t('yii', 'Error')) . ': ' . $this->getModule()->t('attachments', 'The model cannot be empty.'
+                ),
+                [
+                    'class' => 'alert alert-danger'
+                ]
+            );
         }
 
         $hasFileBehavior = false;
@@ -39,7 +50,14 @@ class AttachmentsTable extends \yii\bootstrap\Widget
             }
         }
         if (!$hasFileBehavior) {
-            return '<div class="alert alert-danger"><b>Error</b>: The FileBehavior has not been attached to the model</div>';
+            return Html::tag('div',
+                Html::tag('b',
+                    Yii::t('yii', 'Error')) . ': ' . $this->getModule()->t('attachments', 'The behavior FileBehavior has not been attached to the model.'
+                ),
+                [
+                    'class' => 'alert alert-danger'
+                ]
+            );
         }
 
         Url::remember(Url::current());
@@ -51,7 +69,7 @@ class AttachmentsTable extends \yii\bootstrap\Widget
                     'class' => 'yii\grid\SerialColumn'
                 ],
                 [
-                    'label' => 'Название файла',
+                    'label' => $this->getModule()->t('attachments', 'File name'),
                     'format' => 'raw',
                     'value' => function ($model) {
                         return Html::a("$model->name.$model->type", $model->getUrl());
@@ -68,8 +86,8 @@ class AttachmentsTable extends \yii\bootstrap\Widget
                                     'id' => $model->id
                                 ],
                                 [
-                                    'title' => Yii::t('yii', 'Удалить'),
-                                    'data-confirm' => Yii::t('yii', 'Вы уверены, что хотите удалить сотрудника?'),
+                                    'title' => Yii::t('yii', 'Delete'),
+                                    'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                                     'data-method' => 'post',
                                 ]
                             );

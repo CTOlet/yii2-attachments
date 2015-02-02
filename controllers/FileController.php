@@ -19,7 +19,7 @@ class FileController extends Controller
         if ($file->saveAs($this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name)) {
             return json_encode(['uploadedFile' => $file->name]);
         } else {
-            throw new \Exception('Cannot upload the file');
+            throw new \Exception(\Yii::t('yii', 'File upload failed.'));
         }
     }
 
@@ -33,11 +33,7 @@ class FileController extends Controller
 
     public function actionDelete($id)
     {
-        $file = File::findOne(['id' => $id]);
-        $filePath = $this->getModule()->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
-
-        unlink($filePath);
-        $file->delete();
+        $this->getModule()->detachFile($id);
 
         if (\Yii::$app->request->isAjax) {
             return json_encode([]);

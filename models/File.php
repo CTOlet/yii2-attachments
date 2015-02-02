@@ -4,6 +4,7 @@ namespace nemmo\attachments\models;
 
 use nemmo\attachments\ModuleTrait;
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\Url;
 
 /**
@@ -18,7 +19,7 @@ use yii\helpers\Url;
  * @property string $type
  * @property string $mime
  */
-class File extends \yii\db\ActiveRecord
+class File extends ActiveRecord
 {
     use ModuleTrait;
 

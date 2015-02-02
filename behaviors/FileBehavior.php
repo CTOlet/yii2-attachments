@@ -10,13 +10,14 @@ namespace nemmo\attachments\behaviors;
 
 use nemmo\attachments\models\File;
 use nemmo\attachments\ModuleTrait;
+use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
-class FileBehavior extends \yii\base\Behavior
+class FileBehavior extends Behavior
 {
     use ModuleTrait;
 
@@ -24,61 +25,9 @@ class FileBehavior extends \yii\base\Behavior
     {
         return [
             ActiveRecord::EVENT_AFTER_INSERT => 'saveUploads',
-            ActiveRecord::EVENT_AFTER_UPDATE => 'saveUploads'
+            ActiveRecord::EVENT_AFTER_UPDATE => 'saveUploads',
+            ActiveRecord::EVENT_AFTER_DELETE => 'deleteUploads'
         ];
-    }
-
-    /**
-     * @param $filePath string
-     * @return bool|File
-     * @throws \Exception
-     */
-    public function attachFile($filePath)
-    {
-        if (!$this->owner->id) {
-            throw new \Exception('Owner must have id when you attach file');
-        }
-
-        if (!file_exists($filePath)) {
-            throw new \Exception('File not exist :' . $filePath);
-        }
-
-        $fileHash = md5(microtime(true) . $filePath);
-        $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
-        $newFileName = $fileHash . '.' . $fileType;
-        $fileDirPath = $this->getModule()->getFilesDirPath($fileHash);
-
-        $newFilePath = $fileDirPath . DIRECTORY_SEPARATOR . $newFileName;
-
-        copy($filePath, $newFilePath);
-
-        if (!file_exists($filePath)) {
-            throw new \Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
-        }
-
-        $file = new File();
-
-        $file->name = pathinfo($filePath, PATHINFO_FILENAME);
-        $file->model = $this->getModule()->getShortClass($this->owner);
-        $file->itemId = $this->owner->id;
-        $file->hash = $fileHash;
-        $file->size = filesize($filePath);
-        $file->type = $fileType;
-        $file->mime = FileHelper::getMimeType($filePath);
-
-        if ($file->save()) {
-            unlink($filePath);
-            return $file;
-        } else {
-            if (count($file->getErrors()) > 0) {
-
-                $ar = array_shift($file->getErrors());
-
-                unlink($newFilePath);
-                throw new \Exception(array_shift($ar));
-            }
-            return false;
-        }
     }
 
     public function saveUploads($event)
@@ -88,18 +37,25 @@ class FileBehavior extends \yii\base\Behavior
         if (!empty($files)) {
             foreach ($files as $file) {
                 if (!$file->saveAs($this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name)) {
-                    throw new \Exception('Cannot attach file');
+                    throw new \Exception(\Yii::t('yii', 'File upload failed.'));
                 }
             }
         }
 
         $userTempDir = $this->getModule()->getUserDirPath();
         foreach (FileHelper::findFiles($userTempDir) as $file) {
-            if (!$this->attachFile($file)) {
-                throw new \Exception('Cannot attach file');
+            if (!$this->getModule()->attachFile($file, $this->owner)) {
+                throw new \Exception(\Yii::t('yii', 'File upload failed.'));
             }
         }
         rmdir($userTempDir);
+    }
+
+    public function deleteUploads($event)
+    {
+        foreach ($this->getFiles() as $file) {
+            $this->getModule()->detachFile($file->id);
+        }
     }
 
     /**
