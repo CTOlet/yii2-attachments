@@ -97,7 +97,7 @@ Usage
 Change log
 ----------
 
-- **Feb 2, 2015** -		FIX: all attached files will be deleted with the model.
+- **Feb 2, 2015** -		Fix: all attached files will be deleted with the model.
 - **Feb 1, 2015** -		AJAX or basic upload.
 - **Jan 30, 2015** -	Several previews of images and other files, fix of required packages. 
 - **Jan 29, 2015** -	First version with basic uploading and previews.
