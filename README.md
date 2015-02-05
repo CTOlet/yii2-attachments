@@ -71,7 +71,7 @@ Usage
 			'multiple' => true, // false if you want to allow upload a single file
 		],
 		'pluginOptions' => [
-			'uploadUrl' => Url::toRoute('/attachments/file/upload'), // remove this if you don't want to use AJAX uploading 
+			'uploadUrl' => yii\helpers\Url::toRoute('/attachments/file/upload'), // remove this if you don't want to use AJAX uploading 
 			'initialPreview' => $model->isNewRecord ? [] : $model->getInitialPreview(),
 			'initialPreviewConfig' => $model->isNewRecord ? [] : $model->getInitialPreviewConfig(),
 			// other options
