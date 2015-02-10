@@ -1,10 +1,14 @@
 {
-    "name": "nemmo/yii2-attachments",
+    "name": "dlds/yii2-attachments",
     "description": "Extension for file uploading and attaching to the models",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension","attachment","file","upload"],
+    "keywords": ["yii2", "extension", "attachment", "file", "upload"],
     "license": "BSD-4-Clause",
     "authors": [
+        {
+            "name": "Jiri Svoboda",
+            "email": "jiri.svoboda@dlds.cz"
+        },
         {
             "name": "Alimzhan Abuov aka Nemmo",
             "email": "alimzhan.abu@gmail.com"
@@ -19,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "nemmo\\attachments\\": ""
+            "dlds\\attachments\\": ""
         }
     }
 }

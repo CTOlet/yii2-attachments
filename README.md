@@ -10,13 +10,13 @@ Installation
 	Either run
 	
 	```
-	php composer.phar require nemmo/yii2-attachments "*"
+	php composer.phar require dlds/yii2-attachments "*"
 	```
 	
 	or add
 	
 	```
-	"nemmo/yii2-attachments": "*"
+	"dlds/yii2-attachments": "*"
 	```
 	
 	to the require section of your `composer.json` file.
@@ -24,7 +24,7 @@ Installation
 2. Apply migrations
 	
 	```
-	php yii migrate/up --migrationPath=@vendor/nemmo/yii2-attachments/migrations
+	php yii migrate/up --migrationPath=@vendor/dlds/yii2-attachments/migrations
 	```
 
 3.  Add module to `config/main.php`
@@ -33,7 +33,7 @@ Installation
 	'modules' => [
 		...
 		'attachments' => [
-			'class' => nemmo\attachments\Module::className(),
+			'class' => dlds\attachments\Module::className(),
 			'tempPath' => '@app/uploads/temp',
 			'storePath' => '@app/uploads/store'
 		]
@@ -48,8 +48,8 @@ Installation
 	{
 		return [
 			...
-			'fileBehavior' => [
-			'class' => \nemmo\attachments\behaviors\FileBehavior::className()
+			'attachmentBehavior' => [
+			'class' => \dlds\attachments\behaviors\AttachmentBehavior::className()
 			]
 			...
 		];
@@ -82,7 +82,7 @@ Usage
 2. Use widget to show all attachments of the model in the `view.php`
 	
 	```php
-	<?= \nemmo\attachments\components\AttachmentsTable::widget(['model' => $model]) ?>
+	<?= \dlds\attachments\components\AttachmentsTable::widget(['model' => $model]) ?>
 	```
 
 3. (Optional) Add onclick action to your submit button that uploads all files before submitting form

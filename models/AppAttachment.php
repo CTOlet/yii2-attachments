@@ -1,25 +1,25 @@
 <?php
 
-namespace nemmo\attachments\models;
+namespace dlds\attachments\models;
 
-use nemmo\attachments\ModuleTrait;
+use dlds\attachments\ModuleTrait;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
 
 /**
- * This is the model class for table "attach_file".
+ * This is the model class for table "app_attachment".
  *
  * @property integer $id
  * @property string $name
  * @property string $model
- * @property integer $itemId
+ * @property integer $item_id
  * @property string $hash
  * @property integer $size
  * @property string $type
  * @property string $mime
  */
-class File extends ActiveRecord
+class AppAttachment extends ActiveRecord
 {
     use ModuleTrait;
 
@@ -28,7 +28,7 @@ class File extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'attach_file';
+        return 'app_attachment';
     }
 
     /**
@@ -37,8 +37,8 @@ class File extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'model', 'itemId', 'hash', 'size', 'type', 'mime'], 'required'],
-            [['itemId', 'size'], 'integer'],
+            [['name', 'model', 'item_id', 'hash', 'size', 'type', 'mime'], 'required'],
+            [['item_id', 'size'], 'integer'],
             [['name', 'model', 'hash', 'type', 'mime'], 'string', 'max' => 255]
         ];
     }
@@ -52,7 +52,7 @@ class File extends ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'model' => 'Model',
-            'itemId' => 'Item ID',
+            'item_id' => 'Item ID',
             'hash' => 'Hash',
             'size' => 'Size',
             'type' => 'Type',

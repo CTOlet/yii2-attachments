@@ -6,10 +6,10 @@
  * Time: 12:24
  */
 
-namespace nemmo\attachments\behaviors;
+namespace dlds\attachments\behaviors;
 
-use nemmo\attachments\models\File;
-use nemmo\attachments\ModuleTrait;
+use dlds\attachments\models\AppAttachment;
+use dlds\attachments\ModuleTrait;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
@@ -17,7 +17,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
-class FileBehavior extends Behavior
+class AttachmentBehavior extends Behavior
 {
     use ModuleTrait;
 
@@ -59,14 +59,14 @@ class FileBehavior extends Behavior
     }
 
     /**
-     * @return File[]
+     * @return AppAttachment[]
      * @throws \Exception
      */
     public function getFiles()
     {
-        $fileQuery = File::find()
+        $fileQuery = AppAttachment::find()
             ->where([
-                'itemId' => $this->owner->id,
+                'item_id' => $this->owner->id,
                 'model' => $this->getModule()->getShortClass($this->owner)
             ]);
         $fileQuery->orderBy(['id' => SORT_ASC]);

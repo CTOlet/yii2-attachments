@@ -1,6 +1,6 @@
 <?php
 
-namespace nemmo\attachments;
+namespace dlds\attachments;
 
 /**
  * Created by PhpStorm.

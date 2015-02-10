@@ -1,14 +1,14 @@
 <?php
 
-namespace nemmo\attachments;
+namespace dlds\attachments;
 
-use nemmo\attachments\models\File;
+use dlds\attachments\models\AppAttachment;
 use yii\helpers\FileHelper;
 use yii\i18n\PhpMessageSource;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'nemmo\attachments\controllers';
+    public $controllerNamespace = 'dlds\attachments\controllers';
 
     public $storePath = '@app/uploads/store';
 
@@ -29,19 +29,19 @@ class Module extends \yii\base\Module
 
     public function registerTranslations()
     {
-        \Yii::$app->i18n->translations['nemmo/*'] = [
+        \Yii::$app->i18n->translations['dlds/*'] = [
             'class' => PhpMessageSource::className(),
             'sourceLanguage' => 'en-US',
-            'basePath' => '@vendor/nemmo/yii2-attachments/messages',
+            'basePath' => '@vendor/dlds/yii2-attachments/messages',
             'fileMap' => [
-                'nemmo/attachments' => 'attachments.php'
+                'dlds/attachments' => 'attachments.php'
             ],
         ];
     }
 
     public static function t($category, $message, $params = [], $language = null)
     {
-        return \Yii::t('nemmo/' . $category, $message, $params, $language);
+        return \Yii::t('dlds/' . $category, $message, $params, $language);
     }
 
     public function getStorePath()
@@ -105,7 +105,7 @@ class Module extends \yii\base\Module
     /**
      * @param $filePath string
      * @param $owner
-     * @return bool|File
+     * @return bool|AppAttachment
      * @throws \Exception
      * @throws \yii\base\InvalidConfigException
      */
@@ -132,11 +132,11 @@ class Module extends \yii\base\Module
             throw new \Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
         }
 
-        $file = new File();
+        $file = new AppAttachment();
 
         $file->name = pathinfo($filePath, PATHINFO_FILENAME);
         $file->model = $this->getShortClass($owner);
-        $file->itemId = $owner->id;
+        $file->item_id = $owner->id;
         $file->hash = $fileHash;
         $file->size = filesize($filePath);
         $file->type = $fileType;
@@ -159,7 +159,7 @@ class Module extends \yii\base\Module
 
     public function detachFile($id)
     {
-        $file = File::findOne(['id' => $id]);
+        $file = AppAttachment::findOne(['id' => $id]);
         $filePath = $this->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
         unlink($filePath);
 
