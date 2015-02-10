@@ -54,7 +54,7 @@ class AttachmentsTable extends Widget {
             );
         }
 
-        Url::remember(Url::current());
+        //Url::remember(Url::current());
         return GridView::widget([
                     'dataProvider' => new ArrayDataProvider(['allModels' => $this->model->getFiles()]),
                     'layout' => '{items}',
@@ -75,7 +75,7 @@ class AttachmentsTable extends Widget {
                             'buttons' => [
                                 'delete' => function ($url, $model, $key) {
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>', [
-                                                '/attachments/file/delete',
+                                                '/attachments/app-attachment/delete',
                                                 'id' => $model->id
                                                     ], [
                                                 'title' => Yii::t('yii', 'Delete'),

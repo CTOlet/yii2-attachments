@@ -100,7 +100,7 @@ class AttachmentBehavior extends Behavior
         foreach ($this->getFiles() as $index => $file) {
             $initialPreviewConfig[] = [
                 'caption' => "$file->name.$file->type",
-                'url' => Url::toRoute(['/attachments/file/delete',
+                'url' => Url::toRoute(['/attachments/app-attachment/delete',
                     'id' => $file->id
                 ]),
             ];
