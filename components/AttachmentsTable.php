@@ -25,6 +25,8 @@ class AttachmentsTable extends Widget
     /** @var ActiveRecord */
     public $model;
 
+    public $tableOptions = ['class' => 'table table-striped table-bordered table-condensed'];
+
     public function init()
     {
         parent::init();
@@ -64,6 +66,7 @@ class AttachmentsTable extends Widget
         return GridView::widget([
             'dataProvider' => new ArrayDataProvider(['allModels' => $this->model->getFiles()]),
             'layout' => '{items}',
+            'tableOptions' => $this->tableOptions,
             'columns' => [
                 [
                     'class' => 'yii\grid\SerialColumn'

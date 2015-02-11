@@ -64,4 +64,6 @@ class File extends ActiveRecord
     {
         return Url::to(['/attachments/file/download', 'id' => $this->id]);
     }
+
+
 }

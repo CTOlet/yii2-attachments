@@ -41,4 +41,23 @@ class FileController extends Controller
             return $this->redirect(Url::previous());
         }
     }
+
+    public function actionDownloadTemp($filename)
+    {
+        $filePath = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $filename;
+
+        return \Yii::$app->response->sendFile($filePath, $filename);
+    }
+
+    public function actionDeleteTemp($filename)
+    {
+        $filePath = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $filename;
+        unlink($filePath);
+
+        if (\Yii::$app->request->isAjax) {
+            return json_encode([]);
+        } else {
+            return $this->redirect(Url::previous());
+        }
+    }
 }

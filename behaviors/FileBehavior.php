@@ -78,6 +78,19 @@ class FileBehavior extends Behavior
     {
         $initialPreview = [];
 
+        $userTempDir = $this->getModule()->getUserDirPath();
+        foreach (FileHelper::findFiles($userTempDir) as $file) {
+            if (substr(FileHelper::getMimeType($file), 0, 5) === 'image') {
+                $initialPreview[] = Html::img(['/attachments/file/download-temp', 'filename' => basename($file)], ['class' => 'file-preview-image']);
+            } else {
+                $initialPreview[] = Html::beginTag('div', ['class' => 'file-preview-other']) .
+                    Html::beginTag('h2') .
+                    Html::tag('i', '', ['class' => 'glyphicon glyphicon-file']) .
+                    Html::endTag('h2') .
+                    Html::endTag('div');
+            }
+        }
+
         foreach ($this->getFiles() as $file) {
             if (substr($file->mime, 0, 5) === 'image') {
                 $initialPreview[] = Html::img($file->getUrl(), ['class' => 'file-preview-image']);
@@ -96,6 +109,17 @@ class FileBehavior extends Behavior
     public function getInitialPreviewConfig()
     {
         $initialPreviewConfig = [];
+
+        $userTempDir = $this->getModule()->getUserDirPath();
+        foreach (FileHelper::findFiles($userTempDir) as $file) {
+            $filename = basename($file);
+            $initialPreviewConfig[] = [
+                'caption' => $filename,
+                'url' => Url::to(['/attachments/file/delete-temp',
+                    'filename' => $filename
+                ]),
+            ];
+        }
 
         foreach ($this->getFiles() as $index => $file) {
             $initialPreviewConfig[] = [

@@ -96,7 +96,7 @@ Usage
 	
 Change log
 ----------
-
+- **Feb 11, 2015** -	Added preview of uploaded but not saved files and ```tableOptions``` property for widget
 - **Feb 2, 2015** -		Fix: all attached files will be deleted with the model.
 - **Feb 1, 2015** -		AJAX or basic upload.
 - **Jan 30, 2015** -	Several previews of images and other files, fix of required packages. 
