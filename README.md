@@ -2,6 +2,10 @@ Yii2 attachments
 ================
 Extension for file uploading and attaching to the models
 
+Demo
+----
+You can see the demo on the [krajee](http://plugins.krajee.com/file-input/demo) website
+
 Installation
 ------------
 
@@ -96,6 +100,7 @@ Usage
 	
 Change log
 ----------
+
 - **Feb 11, 2015** -	Added preview of uploaded but not saved files and ```tableOptions``` property for widget
 - **Feb 2, 2015** -		Fix: all attached files will be deleted with the model.
 - **Feb 1, 2015** -		AJAX or basic upload.

@@ -4,6 +4,7 @@ namespace nemmo\attachments\controllers;
 
 use nemmo\attachments\models\File;
 use nemmo\attachments\ModuleTrait;
+use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -51,8 +52,12 @@ class FileController extends Controller
 
     public function actionDeleteTemp($filename)
     {
-        $filePath = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $filename;
+        $userTempDir = $this->getModule()->getUserDirPath();
+        $filePath = $userTempDir . DIRECTORY_SEPARATOR . $filename;
         unlink($filePath);
+        if (!sizeof(FileHelper::findFiles($userTempDir))) {
+            rmdir($userTempDir);
+        }
 
         if (\Yii::$app->request->isAjax) {
             return json_encode([]);
