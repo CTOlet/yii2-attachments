@@ -39,7 +39,11 @@ Installation
 		'attachments' => [
 			'class' => nemmo\attachments\Module::className(),
 			'tempPath' => '@app/uploads/temp',
-			'storePath' => '@app/uploads/store'
+			'storePath' => '@app/uploads/store',
+			'rules' => [ // Rules according to the FileValidator
+				'mimeTypes' => 'image/png', // Only png images
+				'maxSize' => 1024 * 1024 // 1 MB
+			]
 		]
 		...
 	]
@@ -53,7 +57,7 @@ Installation
 		return [
 			...
 			'fileBehavior' => [
-			'class' => \nemmo\attachments\behaviors\FileBehavior::className()
+				'class' => \nemmo\attachments\behaviors\FileBehavior::className()
 			]
 			...
 		];
@@ -68,19 +72,14 @@ Usage
 1. In the `form.php` of your model add file input
 	
 	```php
-	<?= \kartik\file\FileInput::widget([
-		'name' => 'file[]',
-		'id' => 'file-input',
-		'options' => [
-			'multiple' => true, // false if you want to allow upload a single file
+	<?= \nemmo\attachments\components\AttachmentsInput::widget([
+		'id' => 'file-input', // Optional
+		'model' => $model,
+		'pluginOptions' => [ // Plugin options of the Kartik's FileInput widget 
+			'maxFileCount' => 10 // Client max files
 		],
-		'pluginOptions' => [
-			'uploadUrl' => yii\helpers\Url::toRoute('/attachments/file/upload'), // remove this if you don't want to use AJAX uploading 
-			'initialPreview' => $model->isNewRecord ? [] : $model->getInitialPreview(),
-			'initialPreviewConfig' => $model->isNewRecord ? [] : $model->getInitialPreviewConfig(),
-			// other options
-		]
-	]); ?>
+		'options' => [] // Options of the Kartik's FileInput widget
+	]) ?>
 	```
 
 2. Use widget to show all attachments of the model in the `view.php`
@@ -101,6 +100,7 @@ Usage
 Change log
 ----------
 
+- **Feb 13, 2015** -	Added restrictions to files (see point 1 in the Usage section), now use ```AttachmentsInput``` widget on the form view	instead of ```FileInput```
 - **Feb 11, 2015** -	Added preview of uploaded but not saved files and ```tableOptions``` property for widget
 - **Feb 2, 2015** -		Fix: all attached files will be deleted with the model.
 - **Feb 1, 2015** -		AJAX or basic upload.

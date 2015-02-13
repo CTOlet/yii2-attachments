@@ -14,6 +14,8 @@ class Module extends \yii\base\Module
 
     public $tempPath = '@app/uploads/temp';
 
+    public $rules = [];
+
     public function init()
     {
         parent::init();

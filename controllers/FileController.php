@@ -3,6 +3,7 @@
 namespace nemmo\attachments\controllers;
 
 use nemmo\attachments\models\File;
+use nemmo\attachments\models\UploadForm;
 use nemmo\attachments\ModuleTrait;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
@@ -15,10 +16,12 @@ class FileController extends Controller
 
     public function actionUpload()
     {
-        $file = UploadedFile::getInstancesByName('file')[0];
+        $model = new UploadForm();
+        $model->file = UploadedFile::getInstances($model, 'file')[0];
+        $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $model->file->name;
 
-        if ($file->saveAs($this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name)) {
-            return json_encode(['uploadedFile' => $file->name]);
+        if ($model->file and $model->validate() and $model->file->saveAs($path)) {
+            return json_encode(['uploadedFile' => $model->file->name]);
         } else {
             throw new \Exception(\Yii::t('yii', 'File upload failed.'));
         }
