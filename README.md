@@ -14,13 +14,13 @@ Installation
 	Either run
 	
 	```
-	php composer.phar require nemmo/yii2-attachments "*"
+	php composer.phar require nemmo/yii2-attachments "dev-master"
 	```
 	
 	or add
 	
 	```
-	"nemmo/yii2-attachments": "*"
+	"nemmo/yii2-attachments": "dev-master"
 	```
 	
 	to the require section of your `composer.json` file.
@@ -100,6 +100,7 @@ Usage
 Change log
 ----------
 
+- **Mar 3, 2015** -	    Fix of the file-input widget id.
 - **Feb 13, 2015** -	Added restrictions to files (see point 1 in the Usage section), now use ```AttachmentsInput``` widget on the form view	instead of ```FileInput```
 - **Feb 11, 2015** -	Added preview of uploaded but not saved files and ```tableOptions``` property for widget
 - **Feb 2, 2015** -		Fix: all attached files will be deleted with the model.

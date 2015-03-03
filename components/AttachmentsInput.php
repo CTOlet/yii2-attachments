@@ -5,6 +5,7 @@ namespace nemmo\attachments\components;
 use kartik\file\FileInput;
 use nemmo\attachments\models\UploadForm;
 use yii\bootstrap\Widget;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /**
@@ -34,18 +35,20 @@ class AttachmentsInput extends Widget
         ]);
 
         $this->options = array_replace($this->options, [
-            'multiple' => true,
+            'id' => $this->id,
+            'multiple' => true
         ]);
     }
 
     public function run()
     {
-        return FileInput::widget([
-            'id' => $this->id,
+        $fileinput = FileInput::widget([
             'model' => new UploadForm(),
             'attribute' => 'file[]',
             'options' => $this->options,
             'pluginOptions' => $this->pluginOptions
         ]);
+
+        return Html::tag('div', $fileinput, ['class' => 'form-group']);
     }
 }
