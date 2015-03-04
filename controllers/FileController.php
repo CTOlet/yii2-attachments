@@ -17,13 +17,20 @@ class FileController extends Controller
     public function actionUpload()
     {
         $model = new UploadForm();
-        $model->file = UploadedFile::getInstances($model, 'file')[0];
-        $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $model->file->name;
+        $model->file = UploadedFile::getInstances($model, 'file');
 
-        if ($model->file and $model->validate() and $model->file->saveAs($path)) {
-            return json_encode(['uploadedFile' => $model->file->name]);
+        if ($model->file && $model->validate()) {
+            $result['uploadedFiles'] = [];
+            foreach ($model->file as $file) {
+                $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name;
+                $file->saveAs($path);
+                $result['uploadedFiles'][] = $file->name;
+            }
+            return json_encode($result);
         } else {
-            throw new \Exception(\Yii::t('yii', 'File upload failed.'));
+            return json_encode([
+                'error' => $model->errors['file']
+            ]);
         }
     }
 

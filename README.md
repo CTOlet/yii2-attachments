@@ -41,6 +41,7 @@ Installation
 			'tempPath' => '@app/uploads/temp',
 			'storePath' => '@app/uploads/store',
 			'rules' => [ // Rules according to the FileValidator
+			    'maxFiles' => 3, // Allow to upload maximum 3 files, default to 1
 				'mimeTypes' => 'image/png', // Only png images
 				'maxSize' => 1024 * 1024 // 1 MB
 			]
@@ -100,6 +101,7 @@ Usage
 Change log
 ----------
 
+- **Mar 4, 2015** -	    Added restrictions for number of maximum uploaded files.
 - **Mar 3, 2015** -	    Fix of the file-input widget id.
 - **Feb 13, 2015** -	Added restrictions to files (see point 1 in the Usage section), now use ```AttachmentsInput``` widget on the form view	instead of ```FileInput```
 - **Feb 11, 2015** -	Added preview of uploaded but not saved files and ```tableOptions``` property for widget

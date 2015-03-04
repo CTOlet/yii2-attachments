@@ -14,7 +14,9 @@ class Module extends \yii\base\Module
 
     public $tempPath = '@app/uploads/temp';
 
-    public $rules = [];
+    public $rules = [
+        'maxFiles' => 1
+    ];
 
     public function init()
     {
