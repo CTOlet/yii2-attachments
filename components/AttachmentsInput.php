@@ -37,7 +37,7 @@ class AttachmentsInput extends Widget
 
         $this->options = array_replace($this->options, [
             'id' => $this->id,
-            'multiple' => true
+            //'multiple' => true
         ]);
     }
 

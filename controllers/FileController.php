@@ -19,12 +19,21 @@ class FileController extends Controller
         $model = new UploadForm();
         $model->file = UploadedFile::getInstances($model, 'file');
 
+        if ($model->rules()[0]['maxFiles'] == 1) {
+            $model->file = UploadedFile::getInstances($model, 'file')[0];
+        }
+
         if ($model->file && $model->validate()) {
             $result['uploadedFiles'] = [];
-            foreach ($model->file as $file) {
-                $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name;
-                $file->saveAs($path);
-                $result['uploadedFiles'][] = $file->name;
+            if (is_array($model->file)) {
+                foreach ($model->file as $file) {
+                    $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name;
+                    $file->saveAs($path);
+                    $result['uploadedFiles'][] = $file->name;
+                }
+            } else {
+                $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $model->file->name;
+                $model->file->saveAs($path);
             }
             return json_encode($result);
         } else {

@@ -41,7 +41,7 @@ Installation
 			'tempPath' => '@app/uploads/temp',
 			'storePath' => '@app/uploads/store',
 			'rules' => [ // Rules according to the FileValidator
-			    'maxFiles' => 3, // Allow to upload maximum 3 files, default to 1
+			    'maxFiles' => 10, // Allow to upload maximum 3 files, default to 3
 				'mimeTypes' => 'image/png', // Only png images
 				'maxSize' => 1024 * 1024 // 1 MB
 			]
@@ -65,7 +65,9 @@ Installation
 	}
 	```
 	
-5. Make sure that you have added `'enctype' => 'multipart/form-data'` to the ActiveForm options	
+5. Make sure that you have added `'enctype' => 'multipart/form-data'` to the ActiveForm options
+	
+6. Make sure that you specified `maxFiles` in module rules and `maxFileCount` on `AttachmentsInput` to the number that you want
 
 Usage
 -----
@@ -76,6 +78,9 @@ Usage
 	<?= \nemmo\attachments\components\AttachmentsInput::widget([
 		'id' => 'file-input', // Optional
 		'model' => $model,
+		'options' => [
+			'multiple' => true, // If you want to allow multiple upload, default to false
+		],
 		'pluginOptions' => [ // Plugin options of the Kartik's FileInput widget 
 			'maxFileCount' => 10 // Client max files
 		],
@@ -101,6 +106,7 @@ Usage
 Change log
 ----------
 
+- **Mar 5, 2015** -	    Fix: restrictions for the number of maximum uploaded files.
 - **Mar 4, 2015** -	    Added restrictions for number of maximum uploaded files.
 - **Mar 3, 2015** -	    Fix of the file-input widget id.
 - **Feb 13, 2015** -	Added restrictions to files (see point 1 in the Usage section), now use ```AttachmentsInput``` widget on the form view	instead of ```FileInput```

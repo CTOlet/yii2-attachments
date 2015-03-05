@@ -14,9 +14,7 @@ class Module extends \yii\base\Module
 
     public $tempPath = '@app/uploads/temp';
 
-    public $rules = [
-        'maxFiles' => 1
-    ];
+    public $rules = [];
 
     public function init()
     {
@@ -27,6 +25,7 @@ class Module extends \yii\base\Module
             throw new \Exception('Setup storePath and tempPath in module properties');
         }
 
+        $this->rules = array_replace(['maxFiles' => 3], $this->rules);
         $this->defaultRoute = 'file';
         $this->registerTranslations();
     }
