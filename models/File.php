@@ -65,5 +65,8 @@ class File extends ActiveRecord
         return Url::to(['/attachments/file/download', 'id' => $this->id]);
     }
 
-
+    public function getPath()
+    {
+        return $this->getModule()->getFilesDirPath($this->hash) . DIRECTORY_SEPARATOR . $this->hash . '.' . $this->type;
+    }
 }

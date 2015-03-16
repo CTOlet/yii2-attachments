@@ -36,7 +36,7 @@ class FileBehavior extends Behavior
 
         if (!empty($files)) {
             foreach ($files as $file) {
-                if (!$file->saveAs($this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name)) {
+                if (!$file->saveAs($this->getModule()->getUserDirPath() . $file->name)) {
                     throw new \Exception(\Yii::t('yii', 'File upload failed.'));
                 }
             }

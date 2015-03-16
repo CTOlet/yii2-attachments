@@ -93,7 +93,7 @@ class Module extends \yii\base\Module
 
         \Yii::$app->session->close();
 
-        return $userDirPath;
+        return $userDirPath . DIRECTORY_SEPARATOR;
     }
 
     public function getShortClass($obj)

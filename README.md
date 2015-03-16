@@ -106,6 +106,7 @@ Usage
 Change log
 ----------
 
+- **Mar 16, 2015** - 	Fix: error in generating initial preview. Add: Getting path of the attached file by calling ```$file->path```.
 - **Mar 5, 2015** -	    Fix: restrictions for the number of maximum uploaded files.
 - **Mar 4, 2015** -	    Added restrictions for number of maximum uploaded files.
 - **Mar 3, 2015** -	    Fix of the file-input widget id.
