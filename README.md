@@ -103,6 +103,14 @@ Usage
 	]) ?>
 	```
 	
+4. You can get all attached files by calling ```$model->files```, for example:
+
+	```php
+	foreach ($model->files as $file) {
+        echo $file->path;
+    }
+    ```
+	
 Change log
 ----------
 
