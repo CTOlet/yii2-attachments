@@ -28,7 +28,7 @@ class File extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'attach_file';
+        return '{{%attach_file}}';
     }
 
     /**
