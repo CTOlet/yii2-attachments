@@ -110,10 +110,11 @@ Usage
         echo $file->path;
     }
     ```
-	
+
 Change log
 ----------
 
+- **Apr 4, 2015** - 	Now all temp uploaded files will be deleted on every new form opened.
 - **Mar 16, 2015** - 	Fix: error in generating initial preview. Add: Getting path of the attached file by calling ```$file->path```.
 - **Mar 5, 2015** -	    Fix: restrictions for the number of maximum uploaded files.
 - **Mar 4, 2015** -	    Added restrictions for number of maximum uploaded files.
