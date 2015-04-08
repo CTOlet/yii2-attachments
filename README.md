@@ -78,13 +78,12 @@ Usage
 	<?= \nemmo\attachments\components\AttachmentsInput::widget([
 		'id' => 'file-input', // Optional
 		'model' => $model,
-		'options' => [
+		'options' => [ // Options of the Kartik's FileInput widget
 			'multiple' => true, // If you want to allow multiple upload, default to false
 		],
 		'pluginOptions' => [ // Plugin options of the Kartik's FileInput widget 
 			'maxFileCount' => 10 // Client max files
-		],
-		'options' => [] // Options of the Kartik's FileInput widget
+		]
 	]) ?>
 	```
 
