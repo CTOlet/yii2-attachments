@@ -47,7 +47,7 @@ class AttachmentsTable extends Widget
 
         $hasFileBehavior = false;
         foreach ($this->model->getBehaviors() as $behavior) {
-            if ($behavior->className() == FileBehavior::className()) {
+            if (is_a($behavior, FileBehavior::className())) {
                 $hasFileBehavior = true;
             }
         }

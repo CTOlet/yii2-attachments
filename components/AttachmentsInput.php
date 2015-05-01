@@ -45,6 +45,43 @@ class AttachmentsInput extends Widget
             'id' => $this->id,
             //'multiple' => true
         ]);
+
+        $js = <<<JS
+var fileInput = $('#file-input');
+var form = fileInput.closest('form');
+var filesUploaded = false;
+var filesToUpload = 0;
+//var formSubmit = false;
+form.on('beforeSubmit', function(event) { // form submit event
+    console.log('submit');
+    if (!filesUploaded && filesToUpload) {
+        console.log('upload');
+        $('#file-input').fileinput('upload').fileinput('lock');
+
+        return false;
+    }
+});
+
+fileInput.on('filebatchuploadcomplete', function(event, files, extra) { // all files successfully uploaded
+    //var form = data.form;
+    //console.log(form);
+    console.log('uploaded');
+    filesUploaded = true;
+    $('#file-input').fileinput('unlock');
+    form.submit();
+});
+
+fileInput.on('filebatchselected', function(event, files) { // there are some files to upload
+    filesToUpload = files.length
+});
+
+fileInput.on('filecleared', function(event) { // no files to upload
+    filesToUpload = 0;
+});
+
+JS;
+
+        \Yii::$app->view->registerJs($js);
     }
 
     public function run()

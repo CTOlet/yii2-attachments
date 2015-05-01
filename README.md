@@ -93,7 +93,7 @@ Usage
 	<?= \nemmo\attachments\components\AttachmentsTable::widget(['model' => $model]) ?>
 	```
 
-3. (Optional) Add onclick action to your submit button that uploads all files before submitting form
+3. (Deprecated) Add onclick action to your submit button that uploads all files before submitting form
 	
 	```php
 	<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', [
@@ -113,6 +113,8 @@ Usage
 Change log
 ----------
 
+- **May 1, 2015** - 	Fixed uploading when connection is slow or uploading time is long. Now ```onclick``` event on submit button is deprecated
+- **Apr 16, 2015** - 	Allow users to have a custom behavior class inheriting from FileBehavior.
 - **Apr 4, 2015** - 	Now all temp uploaded files will be deleted on every new form opened.
 - **Mar 16, 2015** - 	Fix: error in generating initial preview. Add: Getting path of the attached file by calling ```$file->path```.
 - **Mar 5, 2015** -	    Fix: restrictions for the number of maximum uploaded files.
