@@ -27,7 +27,7 @@ class FileController extends Controller
             $result['uploadedFiles'] = [];
             if (is_array($model->file)) {
                 foreach ($model->file as $file) {
-                    $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . $file->name;
+                    $path = $this->getModule()->getUserDirPath() . DIRECTORY_SEPARATOR . '_' . $file->name; // add a '_' to fix chinese file name; hexl 2015-05-09
                     $file->saveAs($path);
                     $result['uploadedFiles'][] = $file->name;
                 }
