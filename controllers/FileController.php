@@ -52,14 +52,14 @@ class FileController extends Controller
      */
     public function actionDownload($id, $size = NULL, $crop = FALSE)
     {
-        if (!is_null($size))
-            $this->checkResizeRequirements ();
+        if (!is_null($size) && $this->getModule()->checkResizeRequirements() == FALSE)
+            throw new \Exception("You need himiklab/yii2-easy-thumbnail-image-helper for image resize features");
         
         $file = File::findOne(['id' => $id]);
         $filePath = $this->getModule()->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
         
         // Resize if requested
-        if (!is_null($size)) {
+        if (!is_null($size) && $file->isImage) {
             $filePath = \himiklab\thumbnail\EasyThumbnailImage::thumbnailFile(
                     $filePath, 
                     $size, 
@@ -70,17 +70,6 @@ class FileController extends Controller
         return \Yii::$app->response->sendFile($filePath, "$file->name.$file->type");
     }
     
-    /**
-     * Check if we have the resize functionalities
-     * @throws Exception
-     */
-    private function checkResizeRequirements () 
-    {
-        if (!class_exists("\\himiklab\\thumbnail\\EasyThumbnailImage")) {
-            throw new \Exception("You need himiklab/yii2-easy-thumbnail-image-helper for image resize features");
-        }
-    }
-
     public function actionDelete($id)
     {
         $this->getModule()->detachFile($id);
