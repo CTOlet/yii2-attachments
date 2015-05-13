@@ -47,10 +47,11 @@ class FileController extends Controller
      * Download action for the file
      * @param integer $id ID of the image to fetch
      * @param integer $size Optional maximum size of the image. Requires yii2-easy-thumbnail-image-helper
-     * @param bool $crop Optional cropping. Requires yii2-easy-thumbnail-image-helper
+     * @param boolean $crop Optional cropping. Requires yii2-easy-thumbnail-image-helper
+     * @param boolean $forceDownload If TRUE forces the download of the file, otherwise shows inline
      * @return static Image data
      */
-    public function actionDownload($id, $size = NULL, $crop = FALSE)
+    public function actionDownload($id, $size = NULL, $crop = FALSE, $forceDownload = TRUE)
     {
         if (!is_null($size))
             $this->checkResizeRequirements ();
@@ -67,7 +68,23 @@ class FileController extends Controller
                     $crop ? \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_INSET : \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_OUTBOUND);
         }
 
-        return \Yii::$app->response->sendFile($filePath, "$file->name.$file->type");
+        return \Yii::$app->response->sendFile(
+                $filePath, 
+                $file->name.$file->type, 
+                ['inline' => !$forceDownload, 'mimeType' => $file->mime]
+        );
+    }
+    
+    /**
+     * View action for the file
+     * @param integer $id ID of the image to fetch
+     * @param integer $size Optional maximum size of the image. Requires yii2-easy-thumbnail-image-helper
+     * @param boolean $crop Optional cropping. Requires yii2-easy-thumbnail-image-helper
+     * @return static Image data
+     */
+    public function actionView($id, $size = NULL, $crop = FALSE)
+    {
+        $this->actionDownload($id, $size, $crop, FALSE);
     }
     
     /**
