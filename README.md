@@ -69,6 +69,8 @@ Installation
 	
 6. Make sure that you specified `maxFiles` in module rules and `maxFileCount` on `AttachmentsInput` to the number that you want
 
+7. If you want to use resize features install [himiklab/yii2-easy-thumbnail-image-helper](https://github.com/himiklab/yii2-easy-thumbnail-image-helper)
+
 Usage
 -----
 
@@ -113,6 +115,8 @@ Usage
 Change log
 ----------
 
+- **May 13, 2015** - 	Added "view" action to show image inline instead of forcing dowload. The model has now getDownloadUrl and getViewUrl (maxxer)
+- **May 13, 2015** - 	Added optional image resize, using himiklab/yii2-easy-thumbnail-image-helper (maxxer)
 - **May 1, 2015** - 	Fixed uploading when connection is slow or uploading time is long. Now ```onclick``` event on submit button is deprecated
 - **Apr 16, 2015** - 	Allow users to have a custom behavior class inheriting from FileBehavior.
 - **Apr 4, 2015** - 	Now all temp uploaded files will be deleted on every new form opened.
