@@ -64,7 +64,7 @@ class FileController extends Controller
                     $filePath, 
                     $size, 
                     $size, 
-                    $crop ? \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_INSET : \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_OUTBOUND);
+                    $crop ? \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_OUTBOUND : \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_INSET);
         }
 
         return \Yii::$app->response->sendFile($filePath, "$file->name.$file->type");
