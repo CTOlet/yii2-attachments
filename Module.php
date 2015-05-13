@@ -168,4 +168,13 @@ class Module extends \yii\base\Module
 
         $file->delete();
     }
+
+    /**
+     * Check if we have the resize functionalities
+     * @throws Exception
+     */
+    public function checkResizeRequirements () 
+    {
+        return class_exists("\\himiklab\\thumbnail\\EasyThumbnailImage");
+    }
 }

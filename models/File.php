@@ -18,6 +18,8 @@ use yii\helpers\Url;
  * @property integer $size
  * @property string $type
  * @property string $mime
+ * 
+ * @property boolean $isImage Returns TRUE if the file's mime type is image/*
  */
 class File extends ActiveRecord
 {
@@ -69,4 +71,10 @@ class File extends ActiveRecord
     {
         return $this->getModule()->getFilesDirPath($this->hash) . DIRECTORY_SEPARATOR . $this->hash . '.' . $this->type;
     }
+
+    public function getIsImage()
+    {
+        return preg_match('/image\/.*/', $this->mime);
+    }
+
 }

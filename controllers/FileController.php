@@ -43,14 +43,33 @@ class FileController extends Controller
         }
     }
 
-    public function actionDownload($id)
+    /**
+     * Download action for the file
+     * @param integer $id ID of the image to fetch
+     * @param integer $size Optional maximum size of the image. Requires yii2-easy-thumbnail-image-helper
+     * @param bool $crop Optional cropping. Requires yii2-easy-thumbnail-image-helper
+     * @return static Image data
+     */
+    public function actionDownload($id, $size = NULL, $crop = FALSE)
     {
+        if (!is_null($size) && $this->getModule()->checkResizeRequirements() == FALSE)
+            throw new \Exception("You need himiklab/yii2-easy-thumbnail-image-helper for image resize features");
+        
         $file = File::findOne(['id' => $id]);
         $filePath = $this->getModule()->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
+        
+        // Resize if requested
+        if (!is_null($size) && $file->isImage) {
+            $filePath = \himiklab\thumbnail\EasyThumbnailImage::thumbnailFile(
+                    $filePath, 
+                    $size, 
+                    $size, 
+                    $crop ? \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_OUTBOUND : \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_INSET);
+        }
 
         return \Yii::$app->response->sendFile($filePath, "$file->name.$file->type");
     }
-
+    
     public function actionDelete($id)
     {
         $this->getModule()->detachFile($id);
