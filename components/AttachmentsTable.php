@@ -72,6 +72,17 @@ class AttachmentsTable extends Widget
                     'class' => 'yii\grid\SerialColumn'
                 ],
                 [
+                    'label' => $this->getModule()->t('attachments', 'Preview'),
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return $model->isImage ? Html::a(\himiklab\thumbnail\EasyThumbnailImage::thumbnailImg(
+                                $model->path, 150, 150, 
+                                \himiklab\thumbnail\EasyThumbnailImage::THUMBNAIL_OUTBOUND), 
+                            $model->getViewUrl(), ['target' => '_blank']) : "";
+                    },
+                    'visible' => $this->getModule()->checkResizeRequirements(),
+                ],
+                [
                     'label' => $this->getModule()->t('attachments', 'File name'),
                     'format' => 'raw',
                     'value' => function ($model) {
