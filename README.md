@@ -115,6 +115,7 @@ Usage
 Change log
 ----------
 
+- **May 13, 2015** - 	Added "view" action to show image inline instead of forcing dowload. The model has now getDownloadUrl and getViewUrl (maxxer)
 - **May 13, 2015** - 	Added optional image resize, using himiklab/yii2-easy-thumbnail-image-helper (maxxer)
 - **May 1, 2015** - 	Fixed uploading when connection is slow or uploading time is long. Now ```onclick``` event on submit button is deprecated
 - **Apr 16, 2015** - 	Allow users to have a custom behavior class inheriting from FileBehavior.
