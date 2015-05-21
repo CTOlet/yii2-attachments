@@ -49,6 +49,7 @@ class FileBehavior extends Behavior
             }
         }
         rmdir($userTempDir);
+        unset($_FILES);
     }
 
     public function deleteUploads($event)
