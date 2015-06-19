@@ -64,15 +64,11 @@ form.on('beforeSubmit', function(event) { // form submit event
 });
 
 fileInput.on('filebatchpreupload', function(event, data, previewId, index) {
-    var form = data.form, files = data.files, extra = data.extra,
-        response = data.response, reader = data.reader;
     uploadButtonClicked = true;
 });
 
-fileInput.on('filebatchuploadcomplete', function(event, files, extra) { // all files successfully uploaded
-    //var form = data.form;
-    //console.log(form);
-    //console.log('uploaded');
+//fileInput.on('filebatchuploadcomplete', function(event, files, extra) { // all files successfully uploaded
+fileInput.on('filebatchuploadsuccess', function(event, data, previewId, index) {
     filesUploaded = true;
     $('#file-input').fileinput('unlock');
     if (!uploadButtonClicked) {
