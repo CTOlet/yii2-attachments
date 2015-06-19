@@ -51,6 +51,7 @@ var fileInput = $('#file-input');
 var form = fileInput.closest('form');
 var filesUploaded = false;
 var filesToUpload = 0;
+var uploadButtonClicked = false;
 //var formSubmit = false;
 form.on('beforeSubmit', function(event) { // form submit event
     console.log('submit');
@@ -62,13 +63,23 @@ form.on('beforeSubmit', function(event) { // form submit event
     }
 });
 
+fileInput.on('filebatchpreupload', function(event, data, previewId, index) {
+    var form = data.form, files = data.files, extra = data.extra,
+        response = data.response, reader = data.reader;
+    uploadButtonClicked = true;
+});
+
 fileInput.on('filebatchuploadcomplete', function(event, files, extra) { // all files successfully uploaded
     //var form = data.form;
     //console.log(form);
-    console.log('uploaded');
+    //console.log('uploaded');
     filesUploaded = true;
     $('#file-input').fileinput('unlock');
-    form.submit();
+    if (!uploadButtonClicked) {
+        form.submit();
+    } else {
+        uploadButtonClicked = false;
+    }
 });
 
 fileInput.on('filebatchselected', function(event, files) { // there are some files to upload
