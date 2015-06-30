@@ -38,7 +38,7 @@ class FileController extends Controller
             return json_encode($result);
         } else {
             return json_encode([
-                'error' => $model->errors['file']
+                'error' => $model->getErrors('file')
             ]);
         }
     }
