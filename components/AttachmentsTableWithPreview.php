@@ -47,8 +47,6 @@ class AttachmentsTableWithPreview extends Widget
             );
         }
 
-        Yii::info('AttachmentsTable = ' . print_r($this->model, true));
-
         $hasFileBehavior = false;
         foreach ($this->model->getBehaviors() as $behavior) {
             if ($behavior->className() == FileBehavior::className()) {
