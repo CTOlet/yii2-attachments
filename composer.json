@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
-        "kartik-v/yii2-widget-fileinput": "*"
+        "kartik-v/yii2-widget-fileinput": "*",
+        "himiklab/yii2-colorbox-widget": "*"
     },
     "autoload": {
         "psr-4": {
