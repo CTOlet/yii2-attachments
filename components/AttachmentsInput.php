@@ -71,7 +71,7 @@ fileInput.on('filebatchpreupload', function(event, data, previewId, index) {
 fileInput.on('filebatchuploadsuccess', function(event, data, previewId, index) {
     filesUploaded = true;
     $('#file-input').fileinput('unlock');
-    if (!uploadButtonClicked) {
+    if (uploadButtonClicked) {
         form.submit();
     } else {
         uploadButtonClicked = false;

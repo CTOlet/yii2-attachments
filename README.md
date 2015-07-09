@@ -113,6 +113,7 @@ Usage
 Change log
 ----------
 
+- **July 9, 2015** - 	Fixed automatic submitting form
 - **June 19, 2015** - 	Fixed uploading only files without submitting whole form and submitting form with ignoring upload errors 
 - **May 1, 2015** - 	Fixed uploading when connection is slow or uploading time is long. Now ```onclick``` event on submit button is deprecated
 - **Apr 16, 2015** - 	Allow users to have a custom behavior class inheriting from FileBehavior.
