@@ -25,7 +25,7 @@ Installation
 	
 	to the require section of your `composer.json` file.
 
-2.  Add module to `config/main.php`
+2.  Add module to `common/config/main.php`
 	
 	```php
 	'modules' => [
