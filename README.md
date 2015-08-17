@@ -25,13 +25,7 @@ Installation
 	
 	to the require section of your `composer.json` file.
 
-2. Apply migrations
-	
-	```
-	php yii migrate/up --migrationPath=@vendor/nemmo/yii2-attachments/migrations
-	```
-
-3.  Add module to `config/main.php`
+2.  Add module to `config/main.php`
 	
 	```php
 	'modules' => [
@@ -44,10 +38,17 @@ Installation
 			    'maxFiles' => 10, // Allow to upload maximum 3 files, default to 3
 				'mimeTypes' => 'image/png', // Only png images
 				'maxSize' => 1024 * 1024 // 1 MB
-			]
+			],
+			'tableName' => '{{%attachments}}' // Optional, default to 'attach_file'
 		]
 		...
 	]
+	```
+
+3. Apply migrations
+
+	```
+	php yii migrate/up --migrationPath=@vendor/nemmo/yii2-attachments/migrations
 	```
 
 4. Attach behavior to your model (be sure that your model has "id" property)
@@ -113,8 +114,9 @@ Usage
 Change log
 ----------
 
-- **July 9, 2015** - 	Fixed automatic submitting form
-- **June 19, 2015** - 	Fixed uploading only files without submitting whole form and submitting form with ignoring upload errors 
+- **Aug 17, 2015** - 	Support for prefix on table - you can specify the table name before migrating
+- **Jul 9, 2015** - 	Fixed automatic submitting form
+- **Jun 19, 2015** - 	Fixed uploading only files without submitting whole form and submitting form with ignoring upload errors
 - **May 1, 2015** - 	Fixed uploading when connection is slow or uploading time is long. Now ```onclick``` event on submit button is deprecated
 - **Apr 16, 2015** - 	Allow users to have a custom behavior class inheriting from FileBehavior.
 - **Apr 4, 2015** - 	Now all temp uploaded files will be deleted on every new form opened.

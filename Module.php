@@ -16,6 +16,8 @@ class Module extends \yii\base\Module
 
     public $rules = [];
 
+    public $tableName = 'attach_file';
+
     public function init()
     {
         parent::init();
