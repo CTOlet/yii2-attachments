@@ -139,7 +139,7 @@ class Module extends \yii\base\Module
 
         $file = new File();
 
-        $file->name = pathinfo($filePath, PATHINFO_FILENAME);
+        $file->name = substr(pathinfo($filePath, PATHINFO_FILENAME), 1); // remove the first '_' added when save to temp folder; hexl 2015-05-10
         $file->model = $this->getShortClass($owner);
         $file->itemId = $owner->id;
         $file->hash = $fileHash;
