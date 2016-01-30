@@ -1,26 +1,45 @@
 {
-    "name": "nemmo/yii2-attachments",
-    "description": "Extension for file uploading and attaching to the models",
-    "type": "yii2-extension",
-    "keywords": ["yii2","extension","attachment","file","upload"],
-    "license": "BSD-4-Clause",
-    "authors": [
-        {
-            "name": "Alimzhan Abuov aka Nemmo",
-          "email": "alimzhan.abu@yandex.kz"
-        }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": "*",
-        "kartik-v/yii2-widget-fileinput": "v1.0.2",
-        "himiklab/yii2-colorbox-widget": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "nemmo\\attachments\\": ""
-        }
+  "name": "nemmo/yii2-attachments",
+  "description": "Extension for file uploading and attaching to the models",
+  "type": "yii2-extension",
+  "keywords": [
+    "yii2",
+    "extension",
+    "attachment",
+    "file",
+    "upload"
+  ],
+  "license": "BSD-4-Clause",
+  "homepage": "https://github.com/Nemmo/yii2-attachments",
+  "authors": [
+    {
+      "name": "Alimzhan Abuov aka Nemmo",
+      "email": "alimzhan.abu@yandex.kz",
+      "homepage": "http://alimzhan.kz",
+      "role": "Developer"
     }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.4.0",
+    "yiisoft/yii2": "~2.0.0",
+    "kartik-v/yii2-widget-fileinput": "~1.0.0"
+  },
+  "require-dev": {
+    "codeception/codeception": "2.0.*",
+    "codeception/specify": "*",
+    "codeception/verify": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "nemmo\\attachments\\": ""
+    }
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "vendor/bower"
+    }
+  }
 }
