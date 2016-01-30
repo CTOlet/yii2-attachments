@@ -28,7 +28,7 @@ class File extends ActiveRecord
      */
     public static function tableName()
     {
-        return \Yii::$app->getModule('attachments')->tableName; // Maybe a better solution exists
+        return Yii::$app->getModule('attachments')->tableName;
     }
 
     /**
