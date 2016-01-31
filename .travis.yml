@@ -8,7 +8,10 @@ install:
   - composer global require "fxp/composer-asset-plugin:1.1.1"
   - composer install
 before_script:
-  - travis_retry composer self-update
+  - travis_retry composer self-update 1.0.0-alpha11
   - travis_retry composer install --no-interaction --prefer-source --dev
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
