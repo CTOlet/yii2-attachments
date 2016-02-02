@@ -1,5 +1,12 @@
 Yii2 attachments
 ================
+[![Latest Stable Version](https://poser.pugx.org/nemmo/yii2-attachments/v/stable)](https://packagist.org/packages/nemmo/yii2-attachments)
+[![License](https://poser.pugx.org/nemmo/yii2-attachments/license)](https://packagist.org/packages/nemmo/yii2-attachments)
+[![Build Status](https://scrutinizer-ci.com/g/Nemmo/yii2-attachments/badges/build.png?b=tests)](https://scrutinizer-ci.com/g/Nemmo/yii2-attachments/build-status/tests)
+[![Code Coverage](https://scrutinizer-ci.com/g/Nemmo/yii2-attachments/badges/coverage.png?b=tests)](https://scrutinizer-ci.com/g/Nemmo/yii2-attachments/?branch=tests)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Nemmo/yii2-attachments/badges/quality-score.png?b=tests)](https://scrutinizer-ci.com/g/Nemmo/yii2-attachments/?branch=tests)
+[![Total Downloads](https://poser.pugx.org/nemmo/yii2-attachments/downloads)](https://packagist.org/packages/nemmo/yii2-attachments)
+
 Extension for file uploading and attaching to the models
 
 Demo

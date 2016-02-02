@@ -3,6 +3,7 @@
 namespace nemmo\attachments;
 
 use nemmo\attachments\models\File;
+use yii\base\Exception;
 use yii\helpers\FileHelper;
 use yii\i18n\PhpMessageSource;
 
@@ -22,9 +23,8 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
-        if (!$this->storePath or !$this->tempPath) {
-            throw new \Exception('Setup storePath and tempPath in module properties');
+        if (empty($this->storePath) || empty($this->tempPath)) {
+            throw new Exception('Setup {storePath} and {tempPath} in module properties');
         }
 
         $this->rules = array_replace(['maxFiles' => 3], $this->rules);
@@ -36,7 +36,7 @@ class Module extends \yii\base\Module
     {
         \Yii::$app->i18n->translations['nemmo/*'] = [
             'class' => PhpMessageSource::className(),
-            'sourceLanguage' => 'en-US',
+            'sourceLanguage' => 'en',
             'basePath' => '@vendor/nemmo/yii2-attachments/messages',
             'fileMap' => [
                 'nemmo/attachments' => 'attachments.php'
@@ -111,17 +111,17 @@ class Module extends \yii\base\Module
      * @param $filePath string
      * @param $owner
      * @return bool|File
-     * @throws \Exception
+     * @throws Exception
      * @throws \yii\base\InvalidConfigException
      */
     public function attachFile($filePath, $owner)
     {
         if (!$owner->id) {
-            throw new \Exception('Owner must have id when you attach file');
+            throw new Exception('Owner must have id when you attach file');
         }
 
         if (!file_exists($filePath)) {
-            throw new \Exception('File not exist :' . $filePath);
+            throw new Exception('File not exist :' . $filePath);
         }
 
         $fileHash = md5(microtime(true) . $filePath);
@@ -134,7 +134,7 @@ class Module extends \yii\base\Module
         copy($filePath, $newFilePath);
 
         if (!file_exists($filePath)) {
-            throw new \Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
+            throw new Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
         }
 
         $file = new File();
@@ -156,7 +156,7 @@ class Module extends \yii\base\Module
                 $ar = array_shift($file->getErrors());
 
                 unlink($newFilePath);
-                throw new \Exception(array_shift($ar));
+                throw new Exception(array_shift($ar));
             }
             return false;
         }

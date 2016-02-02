@@ -1,12 +1,18 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Alimzhan
+ * Date: 2/2/2016
+ * Time: 9:45 PM
+ */
 
-namespace tests\models;
+namespace tests;
 
 use nemmo\attachments\models\File;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {
-    public function testMe()
+    public function testValidate()
     {
         $file = new File();
 
