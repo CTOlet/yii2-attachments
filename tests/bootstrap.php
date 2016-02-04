@@ -6,10 +6,13 @@
  * Time: 9:46 PM
  */
 
-namespace tests;
+namespace yii\web;
 
 use Yii;
 
+/**
+ * Turn on all error reports
+ */
 error_reporting(E_ALL | E_STRICT);
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
@@ -20,7 +23,9 @@ require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 
 Yii::setAlias('@tests', __DIR__);
 
-// Overwrite
+/**
+ * Overwrite functions for fake uploads
+ */
 function is_uploaded_file($filename)
 {
     return file_exists($filename);
@@ -31,10 +36,13 @@ function move_uploaded_file($filename, $destination)
     return copy($filename, $destination);
 }
 
+/**
+ * Run yii web application
+ */
 new \yii\web\Application([
     'id' => 'unit',
-    'basePath' => __DIR__,
-    'vendorPath' => __DIR__ . '/../vendor',
+    'basePath' => Yii::getAlias('@tests'),
+    'vendorPath' => Yii::getAlias('@tests/../vendor'),
     'modules' => [
         'attachments' => [
             'class' => \nemmo\attachments\Module::className(),
@@ -48,7 +56,7 @@ new \yii\web\Application([
         ],
         'db' => [
             'class' => \yii\db\Connection::className(),
-            'dsn' => 'sqlite:' . __DIR__ . '/data/db.sqlite'
+            'dsn' => 'sqlite:' . Yii::getAlias('@tests/data/db.sqlite')
         ]
     ]
 ]);

@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Yii2 Imperavi Test Suite">
+        <testsuite name="Yii2 Attachments test suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

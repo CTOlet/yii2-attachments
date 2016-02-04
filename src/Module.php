@@ -4,6 +4,7 @@ namespace nemmo\attachments;
 
 use nemmo\attachments\models\File;
 use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\i18n\PhpMessageSource;
 
@@ -27,7 +28,7 @@ class Module extends \yii\base\Module
             throw new Exception('Setup {storePath} and {tempPath} in module properties');
         }
 
-        $this->rules = array_replace(['maxFiles' => 3], $this->rules);
+        $this->rules = ArrayHelper::merge(['maxFiles' => 3], $this->rules);
         $this->defaultRoute = 'file';
         $this->registerTranslations();
     }

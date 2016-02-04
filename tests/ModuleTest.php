@@ -37,7 +37,9 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
     public function testInit()
     {
-        Yii::$app->language = 'ru';
+        Yii::$app->setModule('attachments', [
+            'class' => Module::className()
+        ]);
         /** @var Module $module */
         $module = Yii::$app->getModule('attachments');
         $this->assertEquals([

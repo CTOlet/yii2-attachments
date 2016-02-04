@@ -2,3 +2,5 @@
 .idea/
 build/
 vendor/
+tests/uploads/
+tests/data/db.sqlite
