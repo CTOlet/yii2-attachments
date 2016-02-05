@@ -83,10 +83,7 @@ class FileController extends Controller
             rmdir($userTempDir);
         }
 
-        if (Yii::$app->request->isAjax) {
-            return json_encode([]);
-        } else {
-            return $this->redirect(Url::previous());
-        }
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [];
     }
 }

@@ -11,6 +11,7 @@ namespace tests;
 use nemmo\attachments\Module;
 use Yii;
 use yii\helpers\FileHelper;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class FileControllerTest extends \PHPUnit_Framework_TestCase
@@ -27,25 +28,43 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Upload action test
      */
-    public function testUpload1()
+    public function testPreUpload1()
     {
         $types = ['png', 'txt', 'jpg'];
         $this->generateFiles($types);
-        $output = Yii::$app->runAction('attachments/file/upload');
-        $this->assertArrayHasKey('uploadedFiles', $output);
-        $this->assertTrue(in_array('file.png', $output['uploadedFiles']));
+        $response = Yii::$app->runAction('attachments/file/upload');
+        $this->assertArrayHasKey('uploadedFiles', $response);
+        $this->assertTrue(in_array('file.png', $response['uploadedFiles']));
         $this->checkFilesExist($types);
+        foreach ($types as $type) {
+            /** @var Response $response */
+            $response = Yii::$app->runAction('attachments/file/download-temp', ['filename' => "file.$type"]);
+            var_dump($response);
+            ob_start();
+            $response->send();
+            $actual = ob_get_clean();
+            $response->clear();
+            $expected = file_get_contents(Yii::getAlias("@tests/files/file.$type"));
+            $this->assertEquals($expected, $actual);
+
+            $response = Yii::$app->runAction('attachments/file/delete-temp', ['filename' => "file.$type"]);
+            $this->assertEquals($response, []);
+        }
+        $this->checkFilesNotExist($types);
+        $this->assertFileNotExists($this->getTempDirPath());
     }
 
-    public function testUpload2()
+    public function testPreUpload2()
     {
         $types = ['png', 'txt', 'jpg', 'zip'];
         $this->generateFiles($types);
-        $output = Yii::$app->runAction('attachments/file/upload');
-        $this->assertArrayHasKey('error', $output);
+        $response = Yii::$app->runAction('attachments/file/upload');
+        $this->assertArrayHasKey('error', $response);
+        $errorMessage = 'You can upload at most 3 files.';
+        $this->assertTrue(in_array($errorMessage, $response['error']));
     }
 
-    public function testUpload3()
+    public function testPreUpload3()
     {
         Yii::$app->setModule('attachments', [
             'class' => Module::className(),
@@ -55,11 +74,13 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
         ]);
         $types = ['png', 'zip'];
         $this->generateFiles($types);
-        $output = Yii::$app->runAction('attachments/file/upload');
-        $this->assertArrayHasKey('error', $output);
+        $response = Yii::$app->runAction('attachments/file/upload');
+        $this->assertArrayHasKey('error', $response);
+        $errorMessage = 'Please upload a file.';
+        $this->assertTrue(in_array($errorMessage, $response['error']));
     }
 
-    public function testUpload4()
+    public function testPreUpload4()
     {
         Yii::$app->setModule('attachments', [
             'class' => Module::className(),
@@ -69,13 +90,13 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
         ]);
         $types = ['png'];
         $this->generateFiles($types);
-        $output = Yii::$app->runAction('attachments/file/upload');
-        $this->assertArrayHasKey('uploadedFiles', $output);
-        $this->assertTrue(in_array('file.png', $output['uploadedFiles']));
+        $response = Yii::$app->runAction('attachments/file/upload');
+        $this->assertArrayHasKey('uploadedFiles', $response);
+        $this->assertTrue(in_array('file.png', $response['uploadedFiles']));
         $this->checkFilesExist($types);
     }
 
-    public function testUpload5()
+    public function testPreUpload5()
     {
         Yii::$app->setModule('attachments', [
             'class' => Module::className(),
@@ -86,9 +107,10 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
         ]);
         $types = ['png', 'jpg', 'zip'];
         $this->generateFiles($types);
-        $output = Yii::$app->runAction('attachments/file/upload');
-        var_dump($output);
-        $this->assertArrayHasKey('error', $output);
+        $response = Yii::$app->runAction('attachments/file/upload');
+        $this->assertArrayHasKey('error', $response);
+        $errorMessage = 'Only files with these MIME types are allowed: image/png, image/jpeg.';
+        $this->assertTrue(in_array($errorMessage, $response['error']));
     }
 
     public function generateFiles($types)
@@ -110,8 +132,21 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
     public function checkFilesExist($types)
     {
         foreach ($types as $type) {
-            $filePath = Yii::getAlias('@tests/uploads/temp/' . Yii::$app->session->id . '/file.' . $type);
-            $this->assertTrue(file_exists($filePath));
+            $filePath = $this->getTempDirPath() . "/file.$type";
+            $this->assertFileExists($filePath);
         }
+    }
+
+    public function checkFilesNotExist($types)
+    {
+        foreach ($types as $type) {
+            $filePath = $this->getTempDirPath() . "/file.$type";
+            $this->assertFileNotExists($filePath);
+        }
+    }
+
+    public function getTempDirPath()
+    {
+        return Yii::getAlias('@tests/uploads/temp/' . Yii::$app->session->id);
     }
 }
