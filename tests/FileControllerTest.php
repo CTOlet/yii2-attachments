@@ -10,21 +10,11 @@ namespace tests;
 
 use nemmo\attachments\Module;
 use Yii;
-use yii\helpers\FileHelper;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-class FileControllerTest extends \PHPUnit_Framework_TestCase
+class FileControllerTest extends TestCase
 {
-    /**
-     * @inheritDoc
-     */
-    protected function setUp()
-    {
-        FileHelper::removeDirectory(Yii::getAlias('@tests/uploads'));
-        UploadedFile::reset();
-    }
-
     /**
      * Upload action test
      */
@@ -39,7 +29,6 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
         foreach ($types as $type) {
             /** @var Response $response */
             $response = Yii::$app->runAction('attachments/file/download-temp', ['filename' => "file.$type"]);
-            var_dump($response);
             ob_start();
             $response->send();
             $actual = ob_get_clean();
@@ -116,6 +105,8 @@ class FileControllerTest extends \PHPUnit_Framework_TestCase
     public function generateFiles($types)
     {
         $_FILES = [];
+        UploadedFile::reset();
+
         foreach ($types as $index => $type) {
             $file = "file.$type";
             $path = Yii::getAlias("@tests/files/$file");

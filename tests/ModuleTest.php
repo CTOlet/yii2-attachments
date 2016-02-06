@@ -11,18 +11,22 @@ namespace tests;
 use nemmo\attachments\Module;
 use Yii;
 
-class ModuleTest extends \PHPUnit_Framework_TestCase
+class ModuleTest extends TestCase
 {
     private $_module;
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_module = Yii::$app->getModule('attachments');
     }
 
     protected function tearDown()
     {
         Yii::$app->setModule('attachments', $this->_module);
+
+        parent::tearDown();
     }
 
     public function testInitException()

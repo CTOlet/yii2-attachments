@@ -35,28 +35,3 @@ function move_uploaded_file($filename, $destination)
 {
     return copy($filename, $destination);
 }
-
-/**
- * Run yii web application
- */
-new \yii\web\Application([
-    'id' => 'unit',
-    'basePath' => Yii::getAlias('@tests'),
-    'vendorPath' => Yii::getAlias('@tests/../vendor'),
-    'modules' => [
-        'attachments' => [
-            'class' => \nemmo\attachments\Module::className(),
-        ]
-    ],
-    'components' => [
-        'urlManager' => [
-            'class' => \yii\web\UrlManager::className(),
-            'baseUrl' => 'http://localhost',
-            'scriptUrl' => '/index.php'
-        ],
-        'db' => [
-            'class' => \yii\db\Connection::className(),
-            'dsn' => 'sqlite:' . Yii::getAlias('@tests/data/db.sqlite')
-        ]
-    ]
-]);

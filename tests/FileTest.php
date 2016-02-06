@@ -10,7 +10,7 @@ namespace tests;
 
 use nemmo\attachments\models\File;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     public function testValidate()
     {
