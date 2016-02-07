@@ -35,3 +35,5 @@ function move_uploaded_file($filename, $destination)
 {
     return copy($filename, $destination);
 }
+
+$_SERVER['REQUEST_URI'] = 'http://localhost/index.php';

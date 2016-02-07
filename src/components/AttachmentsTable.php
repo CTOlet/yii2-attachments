@@ -5,12 +5,12 @@ namespace nemmo\attachments\components;
 use nemmo\attachments\behaviors\FileBehavior;
 use nemmo\attachments\ModuleTrait;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\bootstrap\Widget;
 use yii\data\ArrayDataProvider;
 use yii\db\ActiveRecord;
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -30,19 +30,9 @@ class AttachmentsTable extends Widget
     public function init()
     {
         parent::init();
-    }
 
-    public function run()
-    {
-        if (!$this->model) {
-            return Html::tag('div',
-                Html::tag('b',
-                    Yii::t('yii', 'Error')) . ': ' . $this->getModule()->t('attachments', 'The model cannot be empty.'
-                ),
-                [
-                    'class' => 'alert alert-danger'
-                ]
-            );
+        if (empty($this->model)) {
+            throw new InvalidConfigException("Property {model} cannot be blank");
         }
 
         $hasFileBehavior = false;
@@ -52,17 +42,13 @@ class AttachmentsTable extends Widget
             }
         }
         if (!$hasFileBehavior) {
-            return Html::tag('div',
-                Html::tag('b',
-                    Yii::t('yii', 'Error')) . ': ' . $this->getModule()->t('attachments', 'The behavior FileBehavior has not been attached to the model.'
-                ),
-                [
-                    'class' => 'alert alert-danger'
-                ]
-            );
+            throw new InvalidConfigException("The behavior {FileBehavior} has not been attached to the model.");
         }
+    }
 
-        Url::remember(Url::current());
+    public function run()
+    {
+//        Url::remember(Url::current());
         return GridView::widget([
             'dataProvider' => new ArrayDataProvider(['allModels' => $this->model->getFiles()]),
             'layout' => '{items}',

@@ -11,7 +11,6 @@ namespace tests;
 use nemmo\attachments\Module;
 use Yii;
 use yii\web\Response;
-use yii\web\UploadedFile;
 
 class FileControllerTest extends TestCase
 {
@@ -100,44 +99,5 @@ class FileControllerTest extends TestCase
         $this->assertArrayHasKey('error', $response);
         $errorMessage = 'Only files with these MIME types are allowed: image/png, image/jpeg.';
         $this->assertTrue(in_array($errorMessage, $response['error']));
-    }
-
-    public function generateFiles($types)
-    {
-        $_FILES = [];
-        UploadedFile::reset();
-
-        foreach ($types as $index => $type) {
-            $file = "file.$type";
-            $path = Yii::getAlias("@tests/files/$file");
-            $_FILES["UploadForm[file][$index]"] = [
-                'name' => $file,
-                'type' => mime_content_type($path),
-                'size' => filesize($path),
-                'tmp_name' => $path,
-                'error' => 0
-            ];
-        }
-    }
-
-    public function checkFilesExist($types)
-    {
-        foreach ($types as $type) {
-            $filePath = $this->getTempDirPath() . "/file.$type";
-            $this->assertFileExists($filePath);
-        }
-    }
-
-    public function checkFilesNotExist($types)
-    {
-        foreach ($types as $type) {
-            $filePath = $this->getTempDirPath() . "/file.$type";
-            $this->assertFileNotExists($filePath);
-        }
-    }
-
-    public function getTempDirPath()
-    {
-        return Yii::getAlias('@tests/uploads/temp/' . Yii::$app->session->id);
     }
 }

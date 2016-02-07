@@ -23,8 +23,8 @@ class AttachmentsInputTest extends TestCase
 
     public function testDefaultConfig()
     {
-        $controller = new Controller('test', Yii::$app);
-        $response = $controller->render('attachments-input-view', [
+        Yii::$app->controller = new Controller('test', Yii::$app);
+        $response = Yii::$app->controller->render('attachments-input-view', [
             'model' => new Comment()
         ]);
 

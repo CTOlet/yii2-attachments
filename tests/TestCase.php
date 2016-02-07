@@ -12,6 +12,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\web\AssetManager;
+use yii\web\UploadedFile;
 use yii\web\View;
 
 /**
@@ -48,6 +49,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'components' => [
+//                'urlManager' => [
+//                    'class' => \yii\web\UrlManager::className(),
+//                    'baseUrl' => 'http://localhost',
+//                    'scriptUrl' => '/index.php'
+//                ],
                 'request' => [
                     'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
                     'scriptFile' => Yii::getAlias('@tests/index.php'),
@@ -96,5 +102,44 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $expected = str_replace("\r\n", "\n", $expected);
         $actual = str_replace("\r\n", "\n", $actual);
         $this->assertEquals($expected, $actual);
+    }
+
+    public function generateFiles($types)
+    {
+        $_FILES = [];
+        UploadedFile::reset();
+
+        foreach ($types as $index => $type) {
+            $file = "file.$type";
+            $path = Yii::getAlias("@tests/files/$file");
+            $_FILES["UploadForm[file][$index]"] = [
+                'name' => $file,
+                'type' => mime_content_type($path),
+                'size' => filesize($path),
+                'tmp_name' => $path,
+                'error' => 0
+            ];
+        }
+    }
+
+    public function checkFilesExist($types)
+    {
+        foreach ($types as $type) {
+            $filePath = $this->getTempDirPath() . "/file.$type";
+            $this->assertFileExists($filePath);
+        }
+    }
+
+    public function checkFilesNotExist($types)
+    {
+        foreach ($types as $type) {
+            $filePath = $this->getTempDirPath() . "/file.$type";
+            $this->assertFileNotExists($filePath);
+        }
+    }
+
+    public function getTempDirPath()
+    {
+        return Yii::getAlias('@tests/uploads/temp/' . Yii::$app->session->id);
     }
 }
