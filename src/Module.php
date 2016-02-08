@@ -117,29 +117,24 @@ class Module extends \yii\base\Module
      */
     public function attachFile($filePath, $owner)
     {
-        if (!$owner->id) {
-            throw new Exception('Owner must have id when you attach file');
+        if (empty($owner->id)) {
+            throw new Exception('Parent model must have ID when you attaching a file');
         }
-
         if (!file_exists($filePath)) {
-            throw new Exception('File not exist :' . $filePath);
+            throw new Exception("File $filePath not exists");
         }
 
         $fileHash = md5(microtime(true) . $filePath);
         $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
-        $newFileName = $fileHash . '.' . $fileType;
+        $newFileName = "$fileHash.$fileType";
         $fileDirPath = $this->getFilesDirPath($fileHash);
-
         $newFilePath = $fileDirPath . DIRECTORY_SEPARATOR . $newFileName;
 
-        copy($filePath, $newFilePath);
-
-        if (!file_exists($filePath)) {
-            throw new Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
+        if (!copy($filePath, $newFilePath)) {
+            throw new Exception("Cannot copy file! $filePath  to $newFilePath");
         }
 
         $file = new File();
-
         $file->name = pathinfo($filePath, PATHINFO_FILENAME);
         $file->model = $this->getShortClass($owner);
         $file->itemId = $owner->id;
@@ -152,13 +147,6 @@ class Module extends \yii\base\Module
             unlink($filePath);
             return $file;
         } else {
-            if (count($file->getErrors()) > 0) {
-
-                $ar = array_shift($file->getErrors());
-
-                unlink($newFilePath);
-                throw new Exception(array_shift($ar));
-            }
             return false;
         }
     }

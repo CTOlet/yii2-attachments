@@ -35,4 +35,28 @@ class AttachmentsInputTest extends TestCase
         $this->assertContains('fileinput.css', $response);
         $this->assertContains('kv-widgets.css', $response);
     }
+
+    public function testDefaultConfigOldModel()
+    {
+        $comment = new Comment();
+        $comment->text = 'test';
+        $this->generateFiles(['png', 'jpg', 'txt']);
+        $comment->save();
+
+        Yii::$app->controller = new Controller('test', Yii::$app);
+        $response = Yii::$app->controller->render('attachments-input-view', [
+            'model' => $comment
+        ]);
+        file_put_contents('index.html', $response);
+
+        $this->assertContains("var fileInput = $('#file-input');", $response);
+        $this->assertContains("UploadForm[file][]", $response);
+        $this->assertContains('jquery.js', $response);
+        $this->assertContains('fileinput.js', $response);
+        $this->assertContains('fileinput.css', $response);
+        $this->assertContains('kv-widgets.css', $response);
+        $this->assertContains('file-preview-image', $response);
+        $this->assertContains('file-preview-other', $response);
+        $this->assertContains('attachments%2Ffile%2Fdelete', $response);
+    }
 }
