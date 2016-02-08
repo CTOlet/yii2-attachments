@@ -7,7 +7,6 @@ use nemmo\attachments\models\UploadForm;
 use nemmo\attachments\ModuleTrait;
 use Yii;
 use yii\helpers\FileHelper;
-use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -58,12 +57,10 @@ class FileController extends Controller
 
     public function actionDelete($id)
     {
-        $this->getModule()->detachFile($id);
-
-        if (Yii::$app->request->isAjax) {
-            return json_encode([]);
+        if ($this->getModule()->detachFile($id)) {
+            return true;
         } else {
-            return $this->redirect(Url::previous());
+            return false;
         }
     }
 

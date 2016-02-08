@@ -165,10 +165,11 @@ class Module extends \yii\base\Module
 
     public function detachFile($id)
     {
+        /** @var File $file */
         $file = File::findOne(['id' => $id]);
+        if (empty($file)) return false;
         $filePath = $this->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
-        unlink($filePath);
 
-        $file->delete();
+        return unlink($filePath) && $file->delete();
     }
 }

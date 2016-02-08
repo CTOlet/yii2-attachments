@@ -27,6 +27,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     {
         FileHelper::removeDirectory(Yii::getAlias('@tests/uploads'));
         $this->mockApplication();
+        Yii::$app->db->createCommand()->truncateTable('attach_file')->execute();
+        Yii::$app->db->createCommand()->truncateTable('comment')->execute();
+        Yii::$app->db->createCommand()->truncateTable('sqlite_sequence')->execute();
     }
 
     /**
