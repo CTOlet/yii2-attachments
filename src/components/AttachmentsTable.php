@@ -11,6 +11,7 @@ use yii\data\ArrayDataProvider;
 use yii\db\ActiveRecord;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -48,7 +49,7 @@ class AttachmentsTable extends Widget
 
     public function run()
     {
-//        Url::remember(Url::current());
+        Url::remember(Url::current());
         return GridView::widget([
             'dataProvider' => new ArrayDataProvider(['allModels' => $this->model->getFiles()]),
             'layout' => '{items}',
