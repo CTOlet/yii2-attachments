@@ -47,7 +47,6 @@ class AttachmentsInputTest extends TestCase
         $response = Yii::$app->controller->render('attachments-input-view', [
             'model' => $comment
         ]);
-        file_put_contents('index.html', $response);
 
         $this->assertContains("var fileInput = $('#file-input');", $response);
         $this->assertContains("UploadForm[file][]", $response);
