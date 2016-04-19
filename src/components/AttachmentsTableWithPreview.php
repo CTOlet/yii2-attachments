@@ -63,7 +63,26 @@ class AttachmentsTableWithPreview extends Widget
             );
         }
 
-        Url::remember(Url::current());
+        $confirm = Yii::t('yii', 'Are you sure you want to delete this item?');
+        $js = <<<JS
+        $(".delete-button").click(function(){
+            var tr = this.closest('tr');
+            var url = $(this).data('url');
+            if (confirm("$confirm")) {
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    success: function(data) {
+                        if (data) {
+                            tr.remove();
+                        }
+                    }
+                });
+            }
+        });
+JS;
+        Yii::$app->view->registerJs($js);
+
         return GridView::widget([
             'dataProvider' => new ArrayDataProvider(['allModels' => $this->model->getFiles()]),
             'layout' => '{items}',
@@ -88,14 +107,11 @@ class AttachmentsTableWithPreview extends Widget
                     'buttons' => [
                         'delete' => function ($url, $model, $key) {
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>',
+                                '#',
                                 [
-                                    '/attachments/file/delete',
-                                    'id' => $model->id
-                                ],
-                                [
+                                    'class' => 'delete-button',
                                     'title' => Yii::t('yii', 'Delete'),
-                                    'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-                                    'data-method' => 'post',
+                                    'data-url' => Url::to(['/attachments/file/delete', 'id' => $model->id])
                                 ]
                             );
                         }
