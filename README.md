@@ -121,7 +121,7 @@ Usage
 Change log
 ----------
 
-- **Apr 19, 2016**  - 	Refactoring and testing. Ajax removing. Release 1.0.0-beta.1.
+- **Apr 19, 2016**  - 	Refactoring and testing. Ajax removing. Release 1.0.0-beta.2.
 - **Aug 17, 2015**  - 	Support for prefix on table - you can specify the table name before migrating
 - **Jul 9, 2015**   - 	Fixed automatic submitting form
 - **Jun 19, 2015**  - 	Fixed uploading only files without submitting whole form and submitting form with ignoring upload errors
