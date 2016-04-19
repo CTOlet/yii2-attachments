@@ -3,6 +3,8 @@
 namespace nemmo\attachments;
 
 use nemmo\attachments\models\File;
+use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\i18n\PhpMessageSource;
 
@@ -22,12 +24,11 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
-        if (!$this->storePath or !$this->tempPath) {
-            throw new \Exception('Setup storePath and tempPath in module properties');
+        if (empty($this->storePath) || empty($this->tempPath)) {
+            throw new Exception('Setup {storePath} and {tempPath} in module properties');
         }
 
-        $this->rules = array_replace(['maxFiles' => 3], $this->rules);
+        $this->rules = ArrayHelper::merge(['maxFiles' => 3], $this->rules);
         $this->defaultRoute = 'file';
         $this->registerTranslations();
     }
@@ -36,7 +37,7 @@ class Module extends \yii\base\Module
     {
         \Yii::$app->i18n->translations['nemmo/*'] = [
             'class' => PhpMessageSource::className(),
-            'sourceLanguage' => 'en-US',
+            'sourceLanguage' => 'en',
             'basePath' => '@vendor/nemmo/yii2-attachments/messages',
             'fileMap' => [
                 'nemmo/attachments' => 'attachments.php'
@@ -111,34 +112,29 @@ class Module extends \yii\base\Module
      * @param $filePath string
      * @param $owner
      * @return bool|File
-     * @throws \Exception
+     * @throws Exception
      * @throws \yii\base\InvalidConfigException
      */
     public function attachFile($filePath, $owner)
     {
-        if (!$owner->id) {
-            throw new \Exception('Owner must have id when you attach file');
+        if (empty($owner->id)) {
+            throw new Exception('Parent model must have ID when you attaching a file');
         }
-
         if (!file_exists($filePath)) {
-            throw new \Exception('File not exist :' . $filePath);
+            throw new Exception("File $filePath not exists");
         }
 
         $fileHash = md5(microtime(true) . $filePath);
         $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
-        $newFileName = $fileHash . '.' . $fileType;
+        $newFileName = "$fileHash.$fileType";
         $fileDirPath = $this->getFilesDirPath($fileHash);
-
         $newFilePath = $fileDirPath . DIRECTORY_SEPARATOR . $newFileName;
 
-        copy($filePath, $newFilePath);
-
-        if (!file_exists($filePath)) {
-            throw new \Exception('Cannot copy file! ' . $filePath . ' to ' . $newFilePath);
+        if (!copy($filePath, $newFilePath)) {
+            throw new Exception("Cannot copy file! $filePath  to $newFilePath");
         }
 
         $file = new File();
-
         $file->name = pathinfo($filePath, PATHINFO_FILENAME);
         $file->model = $this->getShortClass($owner);
         $file->itemId = $owner->id;
@@ -151,23 +147,17 @@ class Module extends \yii\base\Module
             unlink($filePath);
             return $file;
         } else {
-            if (count($file->getErrors()) > 0) {
-
-                $ar = array_shift($file->getErrors());
-
-                unlink($newFilePath);
-                throw new \Exception(array_shift($ar));
-            }
             return false;
         }
     }
 
     public function detachFile($id)
     {
+        /** @var File $file */
         $file = File::findOne(['id' => $id]);
+        if (empty($file)) return false;
         $filePath = $this->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
-        unlink($filePath);
 
-        $file->delete();
+        return unlink($filePath) && $file->delete();
     }
 }

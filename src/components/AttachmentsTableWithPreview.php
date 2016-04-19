@@ -2,6 +2,7 @@
 
 namespace nemmo\attachments\components;
 
+use himiklab\colorbox\Colorbox;
 use nemmo\attachments\behaviors\FileBehavior;
 use nemmo\attachments\ModuleTrait;
 use Yii;
@@ -18,7 +19,7 @@ use yii\helpers\Url;
  * Date: 28.01.2015
  * Time: 19:10
  */
-class AttachmentsTable extends Widget
+class AttachmentsTableWithPreview extends Widget
 {
     use ModuleTrait;
 
@@ -47,7 +48,7 @@ class AttachmentsTable extends Widget
 
         $hasFileBehavior = false;
         foreach ($this->model->getBehaviors() as $behavior) {
-            if (is_a($behavior, FileBehavior::className())) {
+            if ($behavior->className() == FileBehavior::className()) {
                 $hasFileBehavior = true;
             }
         }
@@ -75,7 +76,10 @@ class AttachmentsTable extends Widget
                     'label' => $this->getModule()->t('attachments', 'File name'),
                     'format' => 'raw',
                     'value' => function ($model) {
-                        return Html::a("$model->name.$model->type", $model->getUrl());
+                        return Html::a("$model->name.$model->type", $model->getUrl(), [
+                            'class' => ' group' . $model->itemId,
+                            'onclick' => 'return false;',
+                        ]);
                     }
                 ],
                 [
@@ -97,7 +101,22 @@ class AttachmentsTable extends Widget
                         }
                     ]
                 ],
-            ]
+            ],
+        ]) .
+        Colorbox::widget([
+            'targets' => [
+                '.group' . $this->model->id => [
+                    'rel' => '.group' . $this->model->id,
+                    'photo' => true,
+                    'scalePhotos' => true,
+                    'width' => '100%',
+                    'height' => '100%',
+                    'maxWidth' => 800,
+                    'maxHeight' => 600,
+                ],
+            ],
+            'coreStyle' => 4,
+
         ]);
     }
 }

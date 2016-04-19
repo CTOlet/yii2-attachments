@@ -4,6 +4,7 @@ namespace nemmo\attachments\models;
 
 use nemmo\attachments\ModuleTrait;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -17,7 +18,7 @@ class UploadForm extends Model
     use ModuleTrait;
 
     /**
-     * @var UploadedFile|Null file attribute
+     * @var UploadedFile[]|UploadedFile file attribute
      */
     public $file;
 
@@ -27,7 +28,7 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            array_replace([['file'], 'file'], $this->getModule()->rules)
+            ArrayHelper::merge(['file', 'file'], $this->getModule()->rules)
         ];
     }
 }

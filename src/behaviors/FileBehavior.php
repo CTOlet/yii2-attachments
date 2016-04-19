@@ -32,7 +32,7 @@ class FileBehavior extends Behavior
 
     public function saveUploads($event)
     {
-        $files = UploadedFile::getInstancesByName('file');
+        $files = UploadedFile::getInstancesByName('UploadForm[file]');
 
         if (!empty($files)) {
             foreach ($files as $file) {
