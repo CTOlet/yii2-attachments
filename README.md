@@ -55,7 +55,7 @@ Installation
 3. Apply migrations
 
 	```
-	php yii migrate/up --migrationPath=@vendor/nemmo/yii2-attachments/migrations
+	php yii migrate/up --migrationPath=@vendor/nemmo/yii2-attachments/src/migrations
 	```
 
 4. Attach behavior to your model (be sure that your model has "id" property)
