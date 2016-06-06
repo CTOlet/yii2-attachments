@@ -48,8 +48,9 @@ class AttachmentsTableWithPreview extends Widget
 
         $hasFileBehavior = false;
         foreach ($this->model->getBehaviors() as $behavior) {
-            if ($behavior->className() == FileBehavior::className()) {
+            if ($behavior instanceof FileBehavior) {
                 $hasFileBehavior = true;
+                break;
             }
         }
         if (!$hasFileBehavior) {
