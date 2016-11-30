@@ -1,5 +1,7 @@
 <?php
 
+namespace nemmo\attachments\migrations;
+
 use yii\db\Migration;
 use yii\db\Schema;
 
