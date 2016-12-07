@@ -54,8 +54,22 @@ Installation
 
 3. Apply migrations
 
+
+	```php
+    	'controllerMap' => [
+		...
+		'migrate' => [
+			'class' => 'yii\console\controllers\MigrateController',
+			'migrationNamespaces' => [
+				'nemmo\attachments\migrations',
+			],
+		],
+		...
+    	],
 	```
-	php yii migrate/up --migrationPath=@vendor/nemmo/yii2-attachments/src/migrations
+
+	```
+	php yii migrate/up
 	```
 
 4. Attach behavior to your model (be sure that your model has "id" property)
@@ -121,6 +135,7 @@ Usage
 Change log
 ----------
 
+- **Dec 7, 2016**  - 	Migration namespace coming with Yii 2.0.10. Release 1.0.0-beta.3.
 - **Apr 19, 2016**  - 	Refactoring and testing. Ajax removing. Release 1.0.0-beta.2.
 - **Aug 17, 2015**  - 	Support for prefix on table - you can specify the table name before migrating
 - **Jul 9, 2015**   - 	Fixed automatic submitting form
