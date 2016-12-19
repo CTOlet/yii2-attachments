@@ -30,6 +30,16 @@ class File extends ActiveRecord
     {
         return Yii::$app->getModule('attachments')->tableName;
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function fields()
+    {
+        return [
+            'url'
+        ];
+    }
 
     /**
      * @inheritdoc
