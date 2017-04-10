@@ -55,6 +55,12 @@ class FileController extends Controller
         return Yii::$app->response->sendFile($filePath, "$file->name.$file->type");
     }
 
+    public function actionFilePath($id)
+    {
+        $file = File::findOne(['id' => $id]);
+        return $this->getModule()->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
+    }
+
     public function actionDelete($id)
     {
         if ($this->getModule()->detachFile($id)) {
