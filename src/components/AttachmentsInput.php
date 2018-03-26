@@ -41,10 +41,18 @@ class AttachmentsInput extends Widget
 
         $this->pluginOptions = array_replace($this->pluginOptions, [
             'uploadUrl' => Url::toRoute('/attachments/file/upload'),
-            'initialPreview' => $this->model->isNewRecord ? [] : $this->model->getInitialPreview(),
-            'initialPreviewConfig' => $this->model->isNewRecord ? [] : $this->model->getInitialPreviewConfig(),
             'uploadAsync' => false
         ]);
+        if(!isset($this->pluginOptions['initialPreview'])){
+            $this->pluginOptions = array_replace($this->pluginOptions, [
+                'initialPreview' => $this->model->isNewRecord ? [] : $this->model->getInitialPreview(),
+            ]);
+        }
+        if(!isset($this->pluginOptions['initialPreviewConfig'])){
+            $this->pluginOptions = array_replace($this->pluginOptions, [
+                'initialPreviewConfig' => $this->model->isNewRecord ? [] : $this->model->getInitialPreviewConfig(),
+            ]);
+        }
 
         $this->options = array_replace($this->options, [
             'id' => $this->id,
