@@ -18,6 +18,8 @@ use yii\helpers\Url;
  * @property integer $size
  * @property string $type
  * @property string $mime
+ * @property integer $create_by
+ * @property string $create_date
  */
 class File extends ActiveRecord
 {
@@ -66,7 +68,9 @@ class File extends ActiveRecord
             'hash' => 'Hash',
             'size' => 'Size',
             'type' => 'Type',
-            'mime' => 'Mime'
+            'mime' => 'Mime',
+            'create_by' => 'Create by',
+            'create_date' => 'Create date',
         ];
     }
 

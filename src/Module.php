@@ -142,6 +142,8 @@ class Module extends \yii\base\Module
         $file->size = filesize($filePath);
         $file->type = $fileType;
         $file->mime = FileHelper::getMimeType($filePath);
+        $file->create_by = \Yii::$app->user->id;
+        $file->create_date = new \yii\db\Expression('NOW()');
 
         if ($file->save()) {
             unlink($filePath);
