@@ -132,6 +132,21 @@ Usage
     }
     ```
 
+Using Events
+------------
+You may add the following function to your model
+    
+```php
+public function init(){
+    $this->on(\nemmo\attachments\behaviors\FileBehavior::EVENT_AFTER_ATTACH_FILES, function ($event) {
+        /** @var $files \nemmo\attachments\models\File[] */
+        $files = $event->files;
+        //your custom code
+    });
+    parent::init();
+}
+```
+    
 Change log
 ----------
 

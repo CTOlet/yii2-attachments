@@ -8,6 +8,7 @@
 
 namespace nemmo\attachments\behaviors;
 
+use nemmo\attachments\events\FileEvent;
 use nemmo\attachments\models\File;
 use nemmo\attachments\ModuleTrait;
 use yii\base\Behavior;
@@ -20,6 +21,8 @@ use yii\web\UploadedFile;
 class FileBehavior extends Behavior
 {
     use ModuleTrait;
+
+    const EVENT_AFTER_ATTACH_FILES = 'afterAttachFiles';
 
     public function events()
     {
@@ -43,10 +46,17 @@ class FileBehavior extends Behavior
         }
 
         $userTempDir = $this->getModule()->getUserDirPath();
+        $attachedFiles = [];
         foreach (FileHelper::findFiles($userTempDir) as $file) {
-            if (!$this->getModule()->attachFile($file, $this->owner)) {
+            if (!($attachedFile = $this->getModule()->attachFile($file, $this->owner))) {
                 throw new \Exception(\Yii::t('yii', 'File upload failed.'));
+            }else{
+                $attachedFiles[] = $attachedFile;
             }
+        }
+        if(count($attachedFiles)){
+            $event = \Yii::createObject(['class' => FileEvent::class, 'files' => $attachedFiles]);
+            $this->owner->trigger(self::EVENT_AFTER_ATTACH_FILES, $event);
         }
         rmdir($userTempDir);
     }
