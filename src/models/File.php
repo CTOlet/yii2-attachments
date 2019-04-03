@@ -47,7 +47,7 @@ class File extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'model', 'itemId', 'hash', 'size', 'type', 'mime'], 'required'],
+            [['name', 'model', 'itemId', 'hash', 'size', 'mime'], 'required'],
             [['itemId', 'size'], 'integer'],
             [['name', 'model', 'hash', 'type', 'mime'], 'string', 'max' => 255]
         ];

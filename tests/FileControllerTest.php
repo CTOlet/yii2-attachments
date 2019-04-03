@@ -123,4 +123,57 @@ class FileControllerTest extends TestCase
         $errorMessage = 'Only files with these MIME types are allowed: image/png, image/jpeg.';
         $this->assertTrue(in_array($errorMessage, $response['error']));
     }
+
+    public function testPreUpload6()
+    {
+        $types = ['png', ''];
+        $this->generateFiles($types);
+        $response = Yii::$app->runAction('attachments/file/upload');
+        $this->assertArrayHasKey('uploadedFiles', $response);
+        $this->assertTrue(in_array('file', $response['uploadedFiles']));
+        $this->checkFilesExist($types);
+
+        foreach ($types as $type) {
+            $fileType = empty($type) ? $type : ".".$type;
+            /** @var Response $response */
+            $response = Yii::$app->runAction('attachments/file/download-temp', ['filename' => "file$fileType"]);
+            ob_start();
+            $response->send();
+            $actual = ob_get_clean();
+            $response->clear();
+            $expected = file_get_contents(Yii::getAlias("@tests/files/file$fileType"));
+            $this->assertEquals($expected, $actual);
+
+            $response = Yii::$app->runAction('attachments/file/delete-temp', ['filename' => "file$fileType"]);
+            $this->assertEquals($response, []);
+        }
+        $this->checkFilesNotExist($types);
+        $this->assertFileNotExists($this->getTempDirPath());
+
+        $comment = new Comment();
+        $comment->text = 'test';
+        $this->assertTrue($comment->save());
+
+        foreach ($comment->files as $file) {
+            $fileType = empty($file->type) ? $file->type : ".".$file->type;
+            /** @var Response $response */
+            $response = Yii::$app->runAction('attachments/file/download', ['id' => $file->id]);
+            ob_start();
+            $response->send();
+            $actual = ob_get_clean();
+            $response->clear();
+            $expected = file_get_contents(Yii::getAlias("@tests/files/file{$fileType}"));
+            $this->assertEquals($expected, $actual);
+            $this->assertFileExists($file->path);
+            $response = Yii::$app->runAction('attachments/file/delete', ['id' => -1]);
+            $this->assertEquals($response, false);
+            $response = Yii::$app->runAction('attachments/file/delete', ['id' => $file->id]);
+            $this->assertEquals($response, true);
+            $this->assertFileNotExists($file->path);
+        }
+
+        $this->assertNotSame(false, $comment->delete());
+
+    }
+
 }
