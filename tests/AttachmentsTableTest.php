@@ -53,5 +53,26 @@ class AttachmentsTableTest extends TestCase
         $this->assertContains('file.png', $response);
         $this->assertContains('file.txt', $response);
         $this->assertContains('file.jpg', $response);
+        $this->assertContains('<a class="delete-button" href="#"', $response);
     }
+
+    public function testNoDeleteButtonConfig()
+    {
+        $comment = new Comment();
+        $comment->text = 'test';
+
+        $types = ['png', 'txt', 'jpg'];
+        $this->generateFiles($types);
+        Yii::$app->runAction('attachments/file/upload');
+
+        $comment->save();
+
+        Yii::$app->controller = new Controller('test', Yii::$app, ['action' => 'test']);
+        $response = Yii::$app->controller->render('attachments-table-view-no-delete', [
+            'model' => $comment
+        ]);
+
+        $this->assertNotContains('<a class="delete-button" href="#"', $response);
+    }
+
 }

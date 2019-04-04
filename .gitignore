@@ -3,4 +3,6 @@
 build/
 vendor/
 tests/uploads/
-tests/data/db.sqlite
+
+#use git update-index --assume-unchanged tests/data/db.sqlite
+#tests/data/db.sqlite

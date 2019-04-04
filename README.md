@@ -112,7 +112,10 @@ Usage
 2. Use widget to show all attachments of the model in the `view.php`
 	
 	```php
-	<?= \nemmo\attachments\components\AttachmentsTable::widget(['model' => $model]) ?>
+	<?= \nemmo\attachments\components\AttachmentsTable::widget([
+		'model' => $model,
+		'showDeleteButton' => false, // Optional. Default value is true
+	])?>
 	```
 
 3. (Deprecated) Add onclick action to your submit button that uploads all files before submitting form
