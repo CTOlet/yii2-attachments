@@ -16,6 +16,12 @@ class Module extends \yii\base\Module
 
     public $tempPath = '@app/uploads/temp';
 
+    /**
+     * Extensions for open file instead of download.
+     * Example: 'pdf, jpg'
+     */
+    public $extForOpen = '';
+
     public $rules = [];
 
     public $tableName = 'attach_file';

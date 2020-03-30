@@ -46,6 +46,7 @@ Installation
 				'mimeTypes' => 'image/png', // Only png images
 				'maxSize' => 1024 * 1024 // 1 MB
 			],
+			//'extForOpen' => 'pdf, png',//Extensions for open file instead of download
 			'tableName' => '{{%attachments}}' // Optional, default to 'attach_file'
 		]
 		...
