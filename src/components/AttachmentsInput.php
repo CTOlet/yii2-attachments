@@ -92,7 +92,11 @@ fileInput.on('filebatchuploadsuccess', function(event, data, previewId, index) {
 });
 
 fileInput.on('filebatchselected', function(event, files) { // there are some files to upload
-    filesToUpload = files.length
+   if ($.isArray(files)) {
+       filesToUpload = files.length;
+   } else {
+       filesToUpload = $(files).length;
+   }
 });
 
 fileInput.on('filecleared', function(event) { // no files to upload
