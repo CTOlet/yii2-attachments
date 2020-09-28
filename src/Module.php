@@ -16,6 +16,12 @@ class Module extends \yii\base\Module
 
     public $tempPath = '@app/uploads/temp';
 
+    /**
+     * Extensions for open file instead of download.
+     * Example: 'pdf, jpg'
+     */
+    public $extForOpen = '';
+
     public $rules = [];
 
     public $tableName = 'attach_file';
@@ -142,6 +148,8 @@ class Module extends \yii\base\Module
         $file->size = filesize($filePath);
         $file->type = $fileType;
         $file->mime = FileHelper::getMimeType($filePath);
+        $file->create_by = \Yii::$app->user->id;
+        $file->create_date = new \yii\db\Expression('NOW()');
 
         if ($file->save()) {
             unlink($filePath);

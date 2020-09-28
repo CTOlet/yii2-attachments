@@ -52,7 +52,11 @@ class FileController extends Controller
         $file = File::findOne(['id' => $id]);
         $filePath = $this->getModule()->getFilesDirPath($file->hash) . DIRECTORY_SEPARATOR . $file->hash . '.' . $file->type;
 
-        return Yii::$app->response->sendFile($filePath, "$file->name.$file->type");
+        $inline = false;
+        $extForOpen = array_map('trim', explode(',', $this->getModule()->extForOpen));
+        if(@in_array($file->type, $extForOpen)) $inline = true;
+
+        return Yii::$app->response->sendFile($filePath, "$file->name.$file->type", ['inline' => $inline]);
     }
 
     public function actionDelete($id)
