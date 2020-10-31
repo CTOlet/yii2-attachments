@@ -21,9 +21,9 @@
   ],
   "require": {
     "php": ">=5.4.0",
-    "yiisoft/yii2": "~2.0.0",
+    "yiisoft/yii2": "^2.0.10",
     "kartik-v/yii2-widget-fileinput": "~1.0.0",
-    "himiklab/yii2-colorbox-widget": "*"
+    "himiklab/yii2-colorbox-widget": "^1.0.3"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
