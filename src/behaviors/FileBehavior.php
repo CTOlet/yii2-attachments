@@ -124,7 +124,7 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $index => $file) {
-            if(str_contains($file->mime,"image")
+            if(str_contains($file->mime,"image"))
            {
                $initialPreviewConfig[] = [
                    'type'=>'image',
