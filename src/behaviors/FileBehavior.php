@@ -124,7 +124,7 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $index => $file) {
-            if(str_contains($file->mime,"image"))
+           if(str_contains($file->mime,"image"))
            {
                $initialPreviewConfig[] = [
                    'type'=>'image',
@@ -134,8 +134,8 @@ class FileBehavior extends Behavior
                     ]),
                 ];
            }
-            else
-            {
+           else
+           {
                  $initialPreviewConfig[] = [
                    'type'=>$file->type,
                     'caption' => "$file->name.$file->type",
@@ -145,7 +145,7 @@ class FileBehavior extends Behavior
                 ];
             
             }
-
+        }
         return $initialPreviewConfig;
     }
 }
