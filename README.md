@@ -21,13 +21,13 @@ Installation
 	Either run
 	
 	```
-	php composer.phar require nemmo/yii2-attachments "~1.0.0"
+	php composer.phar require nemmo/yii2-attachments "~1.0.1"
 	```
 	
 	or add
 	
 	```
-	"nemmo/yii2-attachments": "~1.0.0"
+	"nemmo/yii2-attachments": "~1.0.1"
 	```
 	
 	to the require section of your `composer.json` file.
