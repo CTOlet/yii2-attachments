@@ -155,7 +155,7 @@ FileController Route - No Download option.
 Its now possible to add "inline" to the filecontroller request.  
 This is done using the $file->getUrl(true) function option. 
 Use this in column actions if you want to directly display the file in the browser instead of download it.
-This also helps with preview configs as one no longer has to wrap the getUrl in an image tag to stop the download.
+This also helps with preview configs as one no longer has to wrap the getUrl() in an image tag to stop the download of other filetypes.
 ```
 ex:
 	foreach ($this->getFiles() as $file) {
