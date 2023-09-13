@@ -125,25 +125,44 @@ class FileBehavior extends Behavior
 
         foreach ($this->getFiles() as $index => $file) {
            if(str_contains($file->mime,"image"))
-           {
-               $initialPreviewConfig[] = [
-                   'type'=>'image',
+            {
+                $initialPreviewConfig[] = [
                     'caption' => "$file->name.$file->type",
                     'url' => Url::toRoute(['/attachments/file/delete',
-                        'id' => $file->id
-                    ]),
+                    'id' => $file->id])
                 ];
-           }
-           else
-           {
-                 $initialPreviewConfig[] = [
-                   'type'=>$file->type,
+            }
+            elseif(str_contains($file->mime,"text")){
+                $initialPreviewConfig[] = [
+                'type'=> "text",
+                'caption' => "$file->name.$file->type",
+                'url' => Url::toRoute(['/attachments/file/delete',
+                'id' => $file->id])
+            ];
+            }
+            elseif(str_contains($file->mime,"video")){
+                $initialPreviewConfig[] = [
+                'type'=> "video",
+                'caption' => "$file->name.$file->type",
+                'url' => Url::toRoute(['/attachments/file/delete',
+                'id' => $file->id])
+            ];
+            }
+            elseif(str_contains($file->mime,"doc")||str_contains($file->mime,".ppt")||str_contains($file->mime,".xls")){
+                $initialPreviewConfig[] = [
+                'type'=> "office",
+                'caption' => "$file->name.$file->type",
+                'url' => Url::toRoute(['/attachments/file/delete',
+                'id' => $file->id])
+            ];
+            }
+            else{
+                $initialPreviewConfig[] = [
+                    'type'=> $file->type,
                     'caption' => "$file->name.$file->type",
                     'url' => Url::toRoute(['/attachments/file/delete',
-                        'id' => $file->id
-                    ]),
+                    'id' => $file->id])
                 ];
-            
             }
         }
         return $initialPreviewConfig;
