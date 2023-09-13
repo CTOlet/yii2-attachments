@@ -40,6 +40,8 @@ class AttachmentsInput extends Widget
         FileHelper::removeDirectory($this->getModule()->getUserDirPath()); // Delete all uploaded files in past
 
         $this->pluginOptions = array_replace($this->pluginOptions, [
+            'initialPreviewFileType'=> 'image',  
+            'initialPreviewAsData'=> 'true', //let kartik deal with the previews!
             'uploadUrl' => Url::toRoute('/attachments/file/upload'),
             'uploadAsync' => false
         ]);
