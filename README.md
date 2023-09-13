@@ -149,10 +149,23 @@ public function init(){
     parent::init();
 }
 ```
-    
+
+FileController Route - No Download option.
+----------
+Its now possible to add "inline" to the filecontroller request.  
+This is done using the $file->getUrl(true) function option. 
+Use this in column actions if you want to directly display the file in the browser instead of download it.
+This also helps with preview configs as one no longer has to wrap the getUrl in an image tag to stop the download.
+```
+ex:
+	foreach ($this->getFiles() as $file) {
+             $initialPreview[] =$file->getUrl(true);
+        }
+```
+
 Change log
 ----------
-
+- **Sept 13, 2023**  - 	Added ability to open files inline.  Upated initialPreviewConfig and AttachementsInput to use built in previews from Kartik.
 - **Dec 7, 2016**  - 	Migration namespace coming with Yii 2.0.10. Release 1.0.0-beta.3.
 - **Apr 19, 2016**  - 	Refactoring and testing. Ajax removing. Release 1.0.0-beta.2.
 - **Aug 17, 2015**  - 	Support for prefix on table - you can specify the table name before migrating
