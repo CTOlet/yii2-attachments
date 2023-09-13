@@ -102,15 +102,7 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $file) {
-            if (substr($file->mime, 0, 5) === 'image') {
-                $initialPreview[] = Html::img($file->getUrl(), ['class' => 'file-preview-image']);
-            } else {
-                $initialPreview[] = Html::beginTag('div', ['class' => 'file-preview-other']) .
-                    Html::beginTag('h2') .
-                    Html::tag('i', '', ['class' => 'glyphicon glyphicon-file']) .
-                    Html::endTag('h2') .
-                    Html::endTag('div');
-            }
+             $initialPreview[] =$file->getUrl(true);
         }
 
         return $initialPreview;
@@ -132,13 +124,27 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $index => $file) {
-            $initialPreviewConfig[] = [
-                'caption' => "$file->name.$file->type",
-                'url' => Url::toRoute(['/attachments/file/delete',
-                    'id' => $file->id
-                ]),
-            ];
-        }
+            if(str_contains($file->mime,"image")
+           {
+               $initialPreviewConfig[] = [
+                   'type'=>'image',
+                    'caption' => "$file->name.$file->type",
+                    'url' => Url::toRoute(['/attachments/file/delete',
+                        'id' => $file->id
+                    ]),
+                ];
+           }
+            else
+            {
+                 $initialPreviewConfig[] = [
+                   'type'=>$file->type,
+                    'caption' => "$file->name.$file->type",
+                    'url' => Url::toRoute(['/attachments/file/delete',
+                        'id' => $file->id
+                    ]),
+                ];
+            
+            }
 
         return $initialPreviewConfig;
     }
