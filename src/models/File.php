@@ -70,9 +70,9 @@ class File extends ActiveRecord
         ];
     }
 
-    public function getUrl()
+    public function getUrl($inline = false)
     {
-        return Url::to(['/attachments/file/download', 'id' => $this->id]);
+        return Url::to(['/attachments/file/download', 'id' => $this->id,'inline'=>$inline]);
     }
 
     public function getPath()

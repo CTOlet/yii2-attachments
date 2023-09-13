@@ -102,15 +102,7 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $file) {
-            if (substr($file->mime, 0, 5) === 'image') {
-                $initialPreview[] = Html::img($file->getUrl(), ['class' => 'file-preview-image']);
-            } else {
-                $initialPreview[] = Html::beginTag('div', ['class' => 'file-preview-other']) .
-                    Html::beginTag('h2') .
-                    Html::tag('i', '', ['class' => 'glyphicon glyphicon-file']) .
-                    Html::endTag('h2') .
-                    Html::endTag('div');
-            }
+             $initialPreview[] =$file->getUrl(true);
         }
 
         return $initialPreview;
@@ -132,14 +124,47 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $index => $file) {
-            $initialPreviewConfig[] = [
+           if(str_contains($file->mime,"image"))
+            {
+                $initialPreviewConfig[] = [
+                    'caption' => "$file->name.$file->type",
+                    'url' => Url::toRoute(['/attachments/file/delete',
+                    'id' => $file->id])
+                ];
+            }
+            elseif(str_contains($file->mime,"text")){
+                $initialPreviewConfig[] = [
+                'type'=> "text",
                 'caption' => "$file->name.$file->type",
                 'url' => Url::toRoute(['/attachments/file/delete',
-                    'id' => $file->id
-                ]),
+                'id' => $file->id])
             ];
+            }
+            elseif(str_contains($file->mime,"video")){
+                $initialPreviewConfig[] = [
+                'type'=> "video",
+                'caption' => "$file->name.$file->type",
+                'url' => Url::toRoute(['/attachments/file/delete',
+                'id' => $file->id])
+            ];
+            }
+            elseif(str_contains($file->mime,"doc")||str_contains($file->mime,".ppt")||str_contains($file->mime,".xls")){
+                $initialPreviewConfig[] = [
+                'type'=> "office",
+                'caption' => "$file->name.$file->type",
+                'url' => Url::toRoute(['/attachments/file/delete',
+                'id' => $file->id])
+            ];
+            }
+            else{
+                $initialPreviewConfig[] = [
+                    'type'=> $file->type,
+                    'caption' => "$file->name.$file->type",
+                    'url' => Url::toRoute(['/attachments/file/delete',
+                    'id' => $file->id])
+                ];
+            }
         }
-
         return $initialPreviewConfig;
     }
 }
