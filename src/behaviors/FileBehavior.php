@@ -102,7 +102,7 @@ class FileBehavior extends Behavior
         }
 
         foreach ($this->getFiles() as $file) {
-             $initialPreview[] =$file->getUrl(true);
+             $initialPreview[] =Url::to([$file->getUrl(true)],true);
         }
 
         return $initialPreview;
@@ -148,7 +148,7 @@ class FileBehavior extends Behavior
                 'id' => $file->id])
             ];
             }
-            elseif(str_contains($file->mime,"doc")||str_contains($file->mime,".ppt")||str_contains($file->mime,".xls")){
+            elseif(str_contains($file->mime,"doc")||str_contains($file->mime,"ppt")||str_contains($file->mime,"xls")){
                 $initialPreviewConfig[] = [
                 'type'=> "office",
                 'caption' => "$file->name.$file->type",
