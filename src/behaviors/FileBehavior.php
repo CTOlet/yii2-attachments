@@ -148,7 +148,7 @@ class FileBehavior extends Behavior
                 'id' => $file->id])
             ];
             }
-            elseif(str_contains($file->mime,"doc")||str_contains($file->mime,"ppt")||str_contains($file->mime,"xls")){
+            elseif(str_contains($file->type,"doc")||str_contains($file->type,"ppt")||str_contains($file->type,"xls")){
                 $initialPreviewConfig[] = [
                 'type'=> "office",
                 'caption' => "$file->name.$file->type",
